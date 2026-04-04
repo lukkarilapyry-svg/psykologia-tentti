@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="fi">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Research Methods in Psychology</title>
+<title>Psykologian tutkimusmenetelmät</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#0f9b8e 0%,#1a5276 100%);min-height:100vh;padding:20px}
@@ -12,23 +12,14 @@ h1{text-align:center;color:#fff;font-size:1.8rem;margin-bottom:4px;text-shadow:0
 .subtitle{text-align:center;color:rgba(255,255,255,.85);font-size:.9rem;margin-bottom:18px}
 .home-link{display:block;text-align:center;color:rgba(255,255,255,.7);font-size:.8rem;margin-bottom:14px;text-decoration:none}
 .home-link:hover{color:#fff}
-
-/* Mode toggle */
 .mode-toggle{display:flex;justify-content:center;gap:8px;margin-bottom:18px}
 .mode-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:24px;padding:8px 22px;font-size:.9rem;cursor:pointer;font-weight:600;transition:all .2s}
 .mode-btn:hover,.mode-btn.active{background:#fff;color:#1a5276}
-
-/* Category bar */
 .category-bar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px}
 .cat-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:4px 12px;font-size:.72rem;cursor:pointer;transition:all .2s}
 .cat-btn:hover,.cat-btn.active{background:#fff;color:#1a5276;font-weight:600}
-
-/* Card */
 .card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
-
-/* ===== STUDY MODE ===== */
-.study-area{display:none}
-.study-area.show{display:block}
+.study-area{display:none}.study-area.show{display:block}
 .chapter-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
 .ch-btn{background:#e8f6f3;color:#1a5276;border:1px solid #b2dfdb;border-radius:8px;padding:6px 12px;font-size:.78rem;cursor:pointer;font-weight:600;transition:all .2s}
 .ch-btn:hover,.ch-btn.active{background:#1a5276;color:#fff;border-color:#1a5276}
@@ -39,10 +30,7 @@ h1{text-align:center;color:#fff;font-size:1.8rem;margin-bottom:4px;text-shadow:0
 .study-content li{margin-bottom:4px}
 .key-term{background:#fef9e7;border-left:3px solid #f39c12;padding:8px 12px;border-radius:6px;margin:10px 0;font-size:.88rem}
 .key-term strong{color:#e67e22}
-
-/* ===== QUIZ MODE ===== */
-.quiz-area{display:none}
-.quiz-area.show{display:block}
+.quiz-area{display:none}.quiz-area.show{display:block}
 .progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:.85rem;color:#666}
 .progress-bar{background:#eee;border-radius:8px;height:8px;margin-bottom:20px;overflow:hidden}
 .progress-fill{background:linear-gradient(90deg,#0f9b8e,#1a5276);height:100%;border-radius:8px;transition:width .4s}
@@ -62,10 +50,8 @@ h1{text-align:center;color:#fff;font-size:1.8rem;margin-bottom:4px;text-shadow:0
 .explanation.show{display:block}
 .explanation strong{color:#1a5276}
 .next-btn{display:none;background:linear-gradient(135deg,#0f9b8e,#1a5276);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:opacity .2s}
-.next-btn:hover{opacity:.9}
-.next-btn.show{display:block}
-.result-screen{display:none;text-align:center}
-.result-screen.show{display:block}
+.next-btn:hover{opacity:.9}.next-btn.show{display:block}
+.result-screen{display:none;text-align:center}.result-screen.show{display:block}
 .result-score{font-size:3.5rem;font-weight:800;color:#1a5276;margin:16px 0 8px}
 .result-label{font-size:1.1rem;color:#555;margin-bottom:24px}
 .result-grade{font-size:1.5rem;font-weight:700;margin-bottom:24px}
@@ -79,582 +65,538 @@ h1{text-align:center;color:#fff;font-size:1.8rem;margin-bottom:4px;text-shadow:0
 </head>
 <body>
 <div class="container">
-  <h1>Research Methods in Psychology</h1>
+  <h1>Psykologian tutkimusmenetelmät</h1>
   <p class="subtitle">Price & Jhangiani</p>
   <a class="home-link" href="index.html">← Takaisin valikkoon</a>
-
   <div class="mode-toggle">
     <button class="mode-btn active" onclick="setMode('study')">📖 Opiskelu</button>
     <button class="mode-btn" onclick="setMode('quiz')">✅ Tenttiharjoittelu</button>
   </div>
-
   <div class="card">
-    <!-- ===== STUDY ===== -->
     <div class="study-area show" id="studyArea">
       <div class="chapter-nav" id="chapterNav"></div>
       <div class="study-content" id="studyContent"></div>
     </div>
-
-    <!-- ===== QUIZ ===== -->
     <div class="quiz-area" id="quizArea">
       <div class="category-bar" id="categoryBar"></div>
       <div id="quizInner">
         <div class="progress-row">
           <span id="questionCounter">1 / 1</span>
-          <span class="score-pill" id="scorePill">Correct: 0</span>
+          <span class="score-pill" id="scorePill">Oikein: 0</span>
         </div>
         <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
         <div class="category-badge" id="catBadge"></div>
         <div class="question-text" id="questionText"></div>
         <div class="tf-buttons" id="tfButtons">
-          <button class="tf-btn true-btn" onclick="selectAnswer(true)">TRUE</button>
-          <button class="tf-btn false-btn" onclick="selectAnswer(false)">FALSE</button>
+          <button class="tf-btn true-btn" onclick="selectAnswer(true)">OIKEIN</button>
+          <button class="tf-btn false-btn" onclick="selectAnswer(false)">VÄÄRIN</button>
         </div>
         <div class="explanation" id="explanation"></div>
-        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Next →</button>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Seuraava väittämä →</button>
       </div>
       <div class="result-screen" id="resultScreen">
         <div style="font-size:2.5rem">🎓</div>
         <div class="result-score" id="resultScore">0/0</div>
-        <div class="result-label">correct answers</div>
+        <div class="result-label">oikeaa vastausta</div>
         <div class="result-grade" id="resultGrade"></div>
-        <button class="restart-btn" onclick="restartQuiz()">Start over</button>
-        <button class="restart-btn outline" onclick="restartSame()">Same category again</button>
+        <button class="restart-btn" onclick="restartQuiz()">Aloita alusta</button>
+        <button class="restart-btn outline" onclick="restartSame()">Sama kategoria uudelleen</button>
       </div>
     </div>
   </div>
-  <p class="source-note">Source: <a href="https://opentext.waikato.ac.nz/rmip/" target="_blank">Research Methods in Psychology (Open Textbook)</a></p>
+  <p class="source-note">Lähde: <a href="https://opentext.waikato.ac.nz/rmip/" target="_blank">Research Methods in Psychology (Open Textbook)</a></p>
 </div>
 
 <script>
-// ╔══════════════════════════════════════════╗
-// ║          STUDY MATERIAL                  ║
-// ╚══════════════════════════════════════════╝
+// ══════════════════════════════════════
+//  OPISKELUMATERIAALI (suomeksi)
+// ══════════════════════════════════════
 const CHAPTERS = [
   {
-    id: "ch1", title: "Ch 1: The Science of Psychology",
-    html: `
-<h2>Chapter 1: The Science of Psychology</h2>
-<h3>What Is Science?</h3>
-<p>Science is a general way of understanding the natural world through <strong>systematic empiricism</strong>, <strong>empirical questions</strong>, and <strong>public knowledge</strong>.</p>
-<div class="key-term"><strong>Systematic empiricism</strong> — Learning about the world through carefully planned and systematic observations, not casual ones.</div>
-<div class="key-term"><strong>Empirical questions</strong> — Questions that can be answered by making observations (as opposed to value judgments).</div>
-<div class="key-term"><strong>Public knowledge</strong> — Scientific findings are published, allowing replication, self-correction, and large-scale collaboration.</div>
-<h3>Scientific Research in Psychology</h3>
-<p>Psychological research follows a cyclical model: research question → study design → data collection → analysis → conclusions → publication → new questions.</p>
+    id:"ch1", title:"Luku 1: Psykologia tieteenä",
+    html:`
+<h2>Luku 1: Psykologia tieteenä</h2>
+<h3>Mitä tiede on?</h3>
+<p>Tiede on yleinen tapa ymmärtää luonnollista maailmaa. Sillä on kolme peruspiirrettä: <strong>systemaattinen empirismi</strong>, <strong>empiiriset kysymykset</strong> ja <strong>julkinen tieto</strong>.</p>
+<div class="key-term"><strong>Systemaattinen empirismi</strong> — Maailmasta opitaan huolellisesti suunniteltujen ja järjestelmällisten havaintojen kautta, ei satunnaisten.</div>
+<div class="key-term"><strong>Empiiriset kysymykset</strong> — Kysymykset, joihin voidaan vastata havaintojen perusteella (eivät ole arvoarvostelmia).</div>
+<div class="key-term"><strong>Julkinen tieto</strong> — Tieteelliset löydökset julkaistaan, mikä mahdollistaa toistettavuuden, itsekorjautuvuuden ja laajan yhteistyön.</div>
+<h3>Tieteellinen tutkimus psykologiassa</h3>
+<p>Psykologinen tutkimus noudattaa syklistä mallia: tutkimuskysymys → tutkimusasetelma → aineistonkeruu → analyysi → johtopäätökset → julkaisu → uudet kysymykset.</p>
 <ul>
-  <li><strong>Basic research</strong> — conducted to learn about human behaviour for its own sake.</li>
-  <li><strong>Applied research</strong> — conducted to solve some practical problem.</li>
+  <li><strong>Perustutkimus</strong> — tehdään ihmisen käyttäytymisen ymmärtämiseksi sinänsä.</li>
+  <li><strong>Soveltava tutkimus</strong> — tehdään jonkin käytännön ongelman ratkaisemiseksi.</li>
 </ul>
-<h3>Science vs. Common Sense</h3>
-<p>Folk psychology (common sense beliefs about behaviour) is often wrong. Examples:</p>
+<h3>Tiede vs. maalaisjärki</h3>
+<p>Arkipsykologia (folk psychology) on usein väärässä. Esimerkkejä:</p>
 <ul>
-  <li>"Venting anger" actually increases anger, not reduces it (Bushman, 2002).</li>
-  <li>False confessions are surprisingly common, not only from torture.</li>
-  <li>"People only use 10% of their brain" — a myth.</li>
+  <li>"Vihan purkaminen" (esim. nyrkkeileminen) itse asiassa lisää vihaa, ei vähennä (Bushman, 2002).</li>
+  <li>Väärät tunnustukset ovat yllättävän yleisiä — ei pelkästään kidutuksen seurausta.</li>
+  <li>"Ihmiset käyttävät vain 10 % aivoistaan" — myytti.</li>
 </ul>
-<div class="key-term"><strong>Scepticism</strong> — Not accepting claims at face value; demanding evidence. A core feature of scientific thinking.</div>
-<h3>Science and Clinical Practice</h3>
-<p>Clinical psychology uses <strong>empirically supported treatments (ESTs)</strong> — therapies backed by systematic research. Examples: CBT for depression, exposure therapy for phobias.</p>
-<div class="key-term"><strong>Pseudoscience</strong> — Claims that look scientific but lack systematic empiricism, empirical questions, or public knowledge. Examples: astrology, graphology.</div>
+<div class="key-term"><strong>Skeptisyys</strong> — Väitteitä ei hyväksytä sellaisenaan vaan vaaditaan todisteita. Tieteellisen ajattelun ydinpiirre.</div>
+<h3>Tiede ja kliininen käytäntö</h3>
+<p>Kliininen psykologia käyttää <strong>empiirisesti tuettuja hoitoja (EST)</strong> — terapioita, joiden teho on osoitettu järjestelmällisessä tutkimuksessa. Esimerkkejä: KKT masennukseen, altistusterapia fobioihin.</p>
+<div class="key-term"><strong>Pseudotiede</strong> — Väitteet, jotka näyttävät tieteellisiltä mutta joista puuttuu yksi tai useampi tieteen peruspiirre. Esimerkkejä: astrologia, grafologia.</div>
 `
   },
   {
-    id: "ch2", title: "Ch 2: Getting Started in Research",
-    html: `
-<h2>Chapter 2: Getting Started in Research</h2>
-<h3>Basic Concepts</h3>
-<div class="key-term"><strong>Variable</strong> — A quantity or quality that varies across people or situations. Examples: height, intelligence, gender.</div>
-<div class="key-term"><strong>Operational definition</strong> — A definition of a variable in terms of how it will be measured or manipulated.</div>
-<p>Types of variables:</p>
+    id:"ch2", title:"Luku 2: Tutkimuksen perusteet",
+    html:`
+<h2>Luku 2: Tutkimuksen perusteet</h2>
+<h3>Peruskäsitteet</h3>
+<div class="key-term"><strong>Muuttuja (variable)</strong> — Ominaisuus, joka vaihtelee yksilöiden tai tilanteiden välillä. Esimerkkejä: pituus, älykkyys, sukupuoli.</div>
+<div class="key-term"><strong>Operationaalinen määritelmä</strong> — Muuttujan määritteleminen sen mittaus- tai manipulointitavan kautta.</div>
+<p>Muuttujatyypit:</p>
 <ul>
-  <li><strong>Independent variable (IV)</strong> — manipulated by the researcher.</li>
-  <li><strong>Dependent variable (DV)</strong> — measured as an outcome.</li>
-  <li><strong>Extraneous variable</strong> — any variable that could influence the DV other than the IV.</li>
-  <li><strong>Confounding variable</strong> — an extraneous variable that systematically varies with the IV, making it impossible to determine which caused the effect.</li>
+  <li><strong>Riippumaton muuttuja (IV)</strong> — tutkija manipuloi tätä.</li>
+  <li><strong>Riippuva muuttuja (DV)</strong> — mitataan tuloksena.</li>
+  <li><strong>Ulkoinen muuttuja (extraneous)</strong> — mikä tahansa muu muuttuja, joka voi vaikuttaa riippuvaan muuttujaan.</li>
+  <li><strong>Sekoittava muuttuja (confound)</strong> — ulkoinen muuttuja, joka vaihtelee systemaattisesti riippumattoman muuttujan kanssa, jolloin syy-seuraussuhdetta ei voida päätellä.</li>
 </ul>
-<h3>Generating Research Questions</h3>
-<p>Good research questions can come from: casual observations, practical problems, previous research, and theories. A good question is <strong>empirically testable</strong> and <strong>interesting</strong>.</p>
-<h3>Reviewing the Research Literature</h3>
-<p>Key databases: <strong>PsycINFO</strong> (the primary psychology database), <strong>Google Scholar</strong>. Literature can include:</p>
+<h3>Tutkimuskysymysten muodostaminen</h3>
+<p>Hyvät tutkimuskysymykset voivat syntyä arkihavainnoista, käytännön ongelmista, aiemmasta tutkimuksesta ja teorioista. Hyvä kysymys on <strong>empiirisesti testattavissa</strong> ja <strong>kiinnostava</strong>.</p>
+<h3>Kirjallisuuskatsaus</h3>
+<p>Keskeiset tietokannat: <strong>PsycINFO</strong> (psykologian ensisijainen tietokanta), <strong>Google Scholar</strong>. Kirjallisuus voi sisältää:</p>
 <ul>
-  <li><strong>Empirical research reports</strong> — original data collection.</li>
-  <li><strong>Review articles</strong> — summarise previous research.</li>
-  <li><strong>Meta-analyses</strong> — statistically combine results of multiple studies.</li>
+  <li><strong>Empiiriset tutkimusraportit</strong> — alkuperäistä aineistonkeruuta.</li>
+  <li><strong>Katsausartikkelit</strong> — tiivistävät aiempaa tutkimusta.</li>
+  <li><strong>Meta-analyysit</strong> — yhdistävät useiden tutkimusten tulokset tilastollisesti.</li>
 </ul>
-<div class="key-term"><strong>Peer review</strong> — Before publication, research is evaluated by independent experts (peers) in the field.</div>
+<div class="key-term"><strong>Vertaisarviointi (peer review)</strong> — Ennen julkaisua tutkimus arvioidaan riippumattomien asiantuntijoiden toimesta.</div>
 `
   },
   {
-    id: "ch3", title: "Ch 3: Research Ethics",
-    html: `
-<h2>Chapter 3: Research Ethics</h2>
-<h3>Moral Foundations</h3>
-<p>Research ethics are based on events like the <strong>Nuremberg trials</strong> (Nazi experiments), <strong>Tuskegee syphilis study</strong> (withheld treatment from African Americans), and <strong>Milgram's obedience study</strong> and <strong>Zimbardo's Stanford prison experiment</strong>.</p>
-<h3>Core Ethical Principles (Belmont Report)</h3>
+    id:"ch3", title:"Luku 3: Tutkimusetiikka",
+    html:`
+<h2>Luku 3: Tutkimusetiikka</h2>
+<h3>Moraaliset perusteet</h3>
+<p>Tutkimusetiikka perustuu tapahtumiin kuten <strong>Nürnbergin oikeudenkäynnit</strong> (natsikokeelliset), <strong>Tuskegeen syfilis-tutkimus</strong> (hoito evättiin afroamerikkalaisilta), <strong>Milgramin tottelevaisuuskoe</strong> ja <strong>Zimbardon Stanford-vankilakoe</strong>.</p>
+<h3>Eettiset ydinperiaatteet (Belmontin raportti)</h3>
 <ul>
-  <li><strong>Respect for persons</strong> — treating people as autonomous and protecting vulnerable individuals.</li>
-  <li><strong>Beneficence</strong> — minimising harm and maximising benefits.</li>
-  <li><strong>Justice</strong> — distributing the costs and benefits of research fairly.</li>
+  <li><strong>Henkilöiden kunnioittaminen</strong> — ihmisiä kohdellaan autonomisina ja haavoittuvia yksilöitä suojellaan.</li>
+  <li><strong>Hyväntahtoisuus (beneficence)</strong> — haittojen minimointi ja hyötyjen maksimointi.</li>
+  <li><strong>Oikeudenmukaisuus (justice)</strong> — tutkimuksen kustannusten ja hyötyjen oikeudenmukainen jakautuminen.</li>
 </ul>
-<h3>Key Practices</h3>
-<div class="key-term"><strong>Informed consent</strong> — Participants must be told about the study's purpose, procedures, risks, and their right to withdraw at any time.</div>
-<div class="key-term"><strong>Deception</strong> — Only justified when there is no alternative and the study has scientific value. Must be followed by debriefing.</div>
-<div class="key-term"><strong>Debriefing</strong> — Telling participants the true purpose of the study after their participation.</div>
-<div class="key-term"><strong>Confidentiality</strong> — Participants' data must be kept private and not linked to their identity.</div>
-<h3>Ethics Committees / IRB</h3>
-<p>An <strong>Institutional Review Board (IRB)</strong> or Ethics Committee reviews all research involving human participants before it can proceed. Research is classified as exempt, expedited, or full review based on risk level.</p>
-<h3>Animal Research Ethics</h3>
-<p>The "three Rs": <strong>Replacement</strong> (use alternatives when possible), <strong>Refinement</strong> (minimise suffering), <strong>Reduction</strong> (use minimum number of animals).</p>
+<h3>Keskeiset käytännöt</h3>
+<div class="key-term"><strong>Tietoon perustuva suostumus (informed consent)</strong> — Osallistujille kerrotaan tutkimuksen tarkoitus, menetelmät, riskit ja oikeus vetäytyä milloin tahansa.</div>
+<div class="key-term"><strong>Harhaanjohtaminen (deception)</strong> — Sallittu vain, kun vaihtoehtoja ei ole ja tutkimuksella on tieteellistä arvoa. Jälkikeskustelu (debriefing) on pakollinen.</div>
+<div class="key-term"><strong>Jälkikeskustelu (debriefing)</strong> — Tutkimuksen todellisen tarkoituksen kertominen osallistujalle osallistumisen jälkeen.</div>
+<div class="key-term"><strong>Luottamuksellisuus (confidentiality)</strong> — Osallistujien tietoja ei saa yhdistää henkilöllisyyteen.</div>
+<h3>Eettinen toimikunta / IRB</h3>
+<p><strong>Eettinen toimikunta (IRB, Institutional Review Board)</strong> arvioi kaiken ihmisiin kohdistuvan tutkimuksen ennen sen aloittamista. Tutkimus luokitellaan riskitason mukaan.</p>
+<h3>Eläintutkimuksen etiikka</h3>
+<p>Kolme R:ää: <strong>Replacement</strong> (käytä vaihtoehtoja), <strong>Refinement</strong> (minimoi kärsimys), <strong>Reduction</strong> (käytä mahdollisimman vähän eläimiä).</p>
 `
   },
   {
-    id: "ch4", title: "Ch 4: Theory in Psychology",
-    html: `
-<h2>Chapter 4: Theory in Psychology</h2>
-<h3>Phenomena and Theories</h3>
-<div class="key-term"><strong>Phenomenon</strong> — A general result that has been observed reliably in empirical research (e.g., the bystander effect).</div>
-<div class="key-term"><strong>Theory</strong> — A coherent explanation or interpretation of one or more phenomena. Theories go beyond description to explain <em>why</em> something happens.</div>
-<h3>The Variety of Theories</h3>
-<p>Theories range from very broad <strong>theoretical perspectives</strong> (e.g., evolutionary psychology, social constructionism) to more specific, testable <strong>stage theories</strong> (e.g., Piaget's stages of cognitive development).</p>
-<h3>Hypotheses</h3>
-<div class="key-term"><strong>Hypothesis</strong> — A specific, testable prediction derived from a theory. Empirical research tests hypotheses, not the theory directly.</div>
-<p>When hypotheses are confirmed, the theory is supported (but never "proved"). When they are disconfirmed, the theory may need revision or rejection.</p>
-<h3>Key Qualities of Good Theories</h3>
+    id:"ch4", title:"Luku 4: Teoria psykologiassa",
+    html:`
+<h2>Luku 4: Teoria psykologiassa</h2>
+<h3>Ilmiöt ja teoriat</h3>
+<div class="key-term"><strong>Ilmiö (phenomenon)</strong> — Yleinen tulos, joka on havaittu toistuvasti empiirisessä tutkimuksessa (esim. sivustakatsoja-efekti).</div>
+<div class="key-term"><strong>Teoria</strong> — Johdonmukainen selitys yhdelle tai useammalle ilmiölle. Teoria ylittää kuvailun ja selittää MIKSI jokin tapahtuu.</div>
+<h3>Teorioiden moninaisuus</h3>
+<p>Teoriat vaihtelevat laajoista <strong>teoreettisista näkökulmista</strong> (esim. evoluutiopsykologia, sosiaalinen konstruktionismi) tarkempiin, testattaviin <strong>vaiheteorioihin</strong> (esim. Piagetin kognitiivisen kehityksen vaiheet).</p>
+<h3>Hypoteesit</h3>
+<div class="key-term"><strong>Hypoteesi</strong> — Teoriasta johdettu spesifinen, testattavissa oleva ennuste. Empiirinen tutkimus testaa hypoteeseja, ei teoriaa suoraan.</div>
+<p>Kun hypoteesit vahvistuvat, teoria saa tukea (mutta sitä ei koskaan "todisteta"). Kun ne kumoutuvat, teoriaa on ehkä muokattava tai hylättävä.</p>
+<h3>Hyvän teorian ominaisuudet</h3>
 <ul>
-  <li><strong>Parsimony</strong> — simpler explanations are preferred (Occam's razor).</li>
-  <li><strong>Scope / breadth</strong> — explains a wide range of phenomena.</li>
-  <li><strong>Falsifiability</strong> — can be disproven by possible observations (Popper). Non-falsifiable theories are not scientific.</li>
-  <li><strong>Predictive power</strong> — generates accurate predictions.</li>
-</ul>
-`
-  },
-  {
-    id: "ch5", title: "Ch 5: Psychological Measurement",
-    html: `
-<h2>Chapter 5: Psychological Measurement</h2>
-<h3>Levels of Measurement</h3>
-<ul>
-  <li><strong>Nominal</strong> — categories with no order (e.g., gender, eye colour).</li>
-  <li><strong>Ordinal</strong> — categories with a meaningful order but unequal intervals (e.g., ranks, Likert-type items).</li>
-  <li><strong>Interval</strong> — equal intervals but no true zero (e.g., temperature in Celsius, IQ).</li>
-  <li><strong>Ratio</strong> — equal intervals + true zero (e.g., height, weight, reaction time).</li>
-</ul>
-<h3>Reliability</h3>
-<p>Reliability = consistency of a measure.</p>
-<ul>
-  <li><strong>Test-retest reliability</strong> — consistency over time.</li>
-  <li><strong>Internal consistency</strong> — items within a test measure the same construct (e.g., Cronbach's alpha).</li>
-  <li><strong>Interrater reliability</strong> — agreement between different raters/observers.</li>
-</ul>
-<h3>Validity</h3>
-<p>Validity = the extent to which a measure actually measures what it claims to.</p>
-<ul>
-  <li><strong>Face validity</strong> — appears to measure the construct (weakest form).</li>
-  <li><strong>Content validity</strong> — covers all aspects of the construct.</li>
-  <li><strong>Criterion validity</strong> — correlates with an external criterion (concurrent or predictive).</li>
-  <li><strong>Construct validity</strong> — the broadest type; includes convergent and discriminant validity.</li>
-</ul>
-<div class="key-term"><strong>Convergent validity</strong> — the measure correlates with related measures. <strong>Discriminant validity</strong> — it does NOT correlate with unrelated measures.</div>
-`
-  },
-  {
-    id: "ch6", title: "Ch 6: Experimental Research",
-    html: `
-<h2>Chapter 6: Experimental Research</h2>
-<h3>Experiment Basics</h3>
-<p>An experiment has three key features:</p>
-<ul>
-  <li><strong>Manipulation</strong> of an independent variable (IV).</li>
-  <li><strong>Measurement</strong> of a dependent variable (DV).</li>
-  <li><strong>Control of extraneous variables</strong> to establish causality.</li>
-</ul>
-<div class="key-term"><strong>Internal validity</strong> — The degree to which we can confidently say the IV caused changes in the DV (no confounds). The hallmark of a good experiment.</div>
-<h3>Experimental Design Types</h3>
-<ul>
-  <li><strong>Between-subjects design</strong> — different participants in each condition. Uses <strong>random assignment</strong>.</li>
-  <li><strong>Within-subjects (repeated measures) design</strong> — same participants in all conditions. Eliminates individual differences but risks <strong>order effects</strong>.</li>
-  <li><strong>Counterbalancing</strong> — varying the order of conditions to control order effects.</li>
-</ul>
-<h3>Control Conditions</h3>
-<ul>
-  <li><strong>Control group</strong> — receives no treatment or a standard comparison.</li>
-  <li><strong>Placebo group</strong> — receives an inert treatment to control for expectancy effects.</li>
-</ul>
-<div class="key-term"><strong>Random assignment</strong> — Each participant has an equal chance of being assigned to any condition. This is the primary way to control confounds in between-subjects designs.</div>
-<div class="key-term"><strong>External validity</strong> — The degree to which results can be generalised to other people, settings, and times.</div>
-`
-  },
-  {
-    id: "ch7", title: "Ch 7: Non-experimental Research",
-    html: `
-<h2>Chapter 7: Non-experimental Research</h2>
-<h3>Why Non-experimental?</h3>
-<p>When the IV cannot be manipulated (e.g., gender, age, trauma exposure) or random assignment is impossible or unethical, researchers use non-experimental designs.</p>
-<div class="key-term"><strong>Key limitation</strong> — Non-experimental research cannot establish causation, only associations/correlations.</div>
-<h3>Correlational Research</h3>
-<p>Measures two or more variables and examines the relationship between them.</p>
-<ul>
-  <li><strong>Positive correlation</strong> — both variables increase together (e.g., height and weight).</li>
-  <li><strong>Negative correlation</strong> — one increases as the other decreases (e.g., exercise and depression).</li>
-  <li><strong>Correlation does not imply causation!</strong> — The directionality problem and third-variable problem.</li>
-</ul>
-<div class="key-term"><strong>Directionality problem</strong> — Does X cause Y, or Y cause X? <strong>Third-variable problem</strong> — An unmeasured variable Z might cause both X and Y.</div>
-<h3>Quasi-experimental Research</h3>
-<p>Resembles an experiment but lacks random assignment. The IV is a <strong>non-manipulated "grouping" variable</strong> (e.g., comparing people with vs. without PTSD).</p>
-<div class="key-term"><strong>Non-equivalent groups design</strong> — comparing existing groups. <strong>Pretest-posttest design</strong> — measuring participants before and after an event.</div>
-<h3>Qualitative Research</h3>
-<p>Focuses on understanding experiences through interviews, observations, and text analysis. Data are words, not numbers.</p>
-<ul>
-  <li><strong>Grounded theory</strong> — builds theory from data rather than testing an existing one.</li>
-  <li><strong>Case study</strong> — in-depth investigation of a single individual, group, or event.</li>
+  <li><strong>Yksinkertaisuus (parsimonia)</strong> — yksinkertaisemmat selitykset ovat parempia (Occamin partaveitsi).</li>
+  <li><strong>Laajuus (scope)</strong> — selittää monia eri ilmiöitä.</li>
+  <li><strong>Falsifioitavuus</strong> — on mahdollista kumota havaintojen perusteella (Popper). Ei-falsifioitavat teoriat eivät ole tieteellisiä.</li>
+  <li><strong>Ennustusvoima</strong> — tuottaa tarkkoja ennusteita.</li>
 </ul>
 `
   },
   {
-    id: "ch8", title: "Ch 8: Complex Research Designs",
-    html: `
-<h2>Chapter 8: Complex Research Designs</h2>
-<h3>Multiple Dependent Variables</h3>
-<p>Researchers often measure several DVs in a single study to get a more complete picture of the effect.</p>
-<h3>Factorial Designs</h3>
-<div class="key-term"><strong>Factorial design</strong> — A study with two or more independent variables (factors). Described using notation like 2×2 (two IVs, each with two levels).</div>
-<p>Factorial designs can reveal:</p>
+    id:"ch5", title:"Luku 5: Psykologinen mittaaminen",
+    html:`
+<h2>Luku 5: Psykologinen mittaaminen</h2>
+<h3>Mittaustasojen hierarkia</h3>
 <ul>
-  <li><strong>Main effect</strong> — the overall effect of one IV across all levels of the other IV(s).</li>
-  <li><strong>Interaction</strong> — the effect of one IV depends on the level of another IV. "It depends" = interaction.</li>
+  <li><strong>Nominaalitaso</strong> — luokat ilman järjestystä (esim. sukupuoli, silmien väri).</li>
+  <li><strong>Ordinaalitaso</strong> — järjestys merkityksellinen, mutta välit eivät ole yhtä suuret (esim. sijoitukset, Likert-asteikot).</li>
+  <li><strong>Intervallitaso</strong> — yhtä suuret välit, mutta ei todellista nollapistettä (esim. lämpötila celsiuksina, ÄO).</li>
+  <li><strong>Suhdeasteikko (ratio)</strong> — yhtä suuret välit + todellinen nollapiste (esim. pituus, paino, reaktioaika).</li>
 </ul>
-<p>Example: A 2 (drug vs. placebo) × 2 (therapy vs. no therapy) design can show whether drug and therapy combine differently than expected.</p>
-<h3>Complex Correlational Designs</h3>
+<h3>Reliabiliteetti (luotettavuus)</h3>
+<p>Reliabiliteetti = mittauksen johdonmukaisuus.</p>
 <ul>
-  <li><strong>Multiple regression</strong> — uses multiple predictor variables to predict one outcome variable.</li>
-  <li><strong>Factor analysis</strong> — identifies clusters of correlated variables (factors/constructs).</li>
+  <li><strong>Testi-uusintatesti-reliabiliteetti</strong> — johdonmukaisuus ajan yli.</li>
+  <li><strong>Sisäinen konsistenssi</strong> — mittarin osiot mittaavat samaa asiaa (esim. Cronbachin alfa).</li>
+  <li><strong>Arvioitsijain välinen reliabiliteetti</strong> — eri arvioitsijoiden yksimielisyys.</li>
+</ul>
+<h3>Validiteetti (pätevyys)</h3>
+<p>Validiteetti = missä määrin mittari todella mittaa sitä, mitä sen väitetään mittaavan.</p>
+<ul>
+  <li><strong>Ilmivaliditeetti (face validity)</strong> — näyttää mittaavan oikeaa asiaa (heikoin muoto).</li>
+  <li><strong>Sisältövaliditeetti</strong> — kattaa kaikki konstruktion osa-alueet.</li>
+  <li><strong>Kriteerivaliditeetti</strong> — korreloi ulkoisen kriteerin kanssa (samanaikainen tai ennustava).</li>
+  <li><strong>Rakennevaliditeetti (construct validity)</strong> — laajin tyyppi; sisältää konvergentin ja diskriminantin validiteetin.</li>
+</ul>
+<div class="key-term"><strong>Konvergentti validiteetti</strong> — mittari korreloi samaa asiaa mittaavien mittarien kanssa. <strong>Diskriminantti validiteetti</strong> — mittari EI korreloi eri asioita mittaavien mittarien kanssa.</div>
+`
+  },
+  {
+    id:"ch6", title:"Luku 6: Kokeellinen tutkimus",
+    html:`
+<h2>Luku 6: Kokeellinen tutkimus</h2>
+<h3>Kokeen perusteet</h3>
+<p>Kokeella on kolme keskeistä piirrettä:</p>
+<ul>
+  <li><strong>Riippumattoman muuttujan manipulointi</strong>.</li>
+  <li><strong>Riippuvan muuttujan mittaaminen</strong>.</li>
+  <li><strong>Ulkoisten muuttujien kontrollointi</strong> kausaliteetin osoittamiseksi.</li>
+</ul>
+<div class="key-term"><strong>Sisäinen validiteetti</strong> — Missä määrin voimme luotettavasti sanoa, että riippumaton muuttuja aiheutti riippuvan muuttujan muutoksen (ei sekoittavia tekijöitä). Hyvän kokeen tunnusmerkki.</div>
+<h3>Koeasetelmien tyypit</h3>
+<ul>
+  <li><strong>Ryhmien välinen asetelma (between-subjects)</strong> — eri osallistujat eri koeryhmissä. Käyttää <strong>satunnaistamista</strong>.</li>
+  <li><strong>Toistettujen mittausten asetelma (within-subjects)</strong> — samat osallistujat kaikissa koeryhmissä. Poistaa yksilöerot, mutta riskinä <strong>järjestysefektit</strong>.</li>
+  <li><strong>Vastapanotus (counterbalancing)</strong> — koetilanteen järjestystä vaihdellaan järjestysefektien kontrolloimiseksi.</li>
+</ul>
+<h3>Kontrolliasetelmat</h3>
+<ul>
+  <li><strong>Kontrolliryhmä</strong> — ei saa hoitoa tai saa vakiovertailun.</li>
+  <li><strong>Lumeryhmä (placebo)</strong> — saa vaikuttamattoman hoidon odotusefektien kontrolloimiseksi.</li>
+</ul>
+<div class="key-term"><strong>Satunnaistaminen (random assignment)</strong> — Jokaisella osallistujalla on yhtä suuri mahdollisuus joutua mihin tahansa koeryhmään. Ensisijainen tapa kontrolloida sekoittavia tekijöitä.</div>
+<div class="key-term"><strong>Ulkoinen validiteetti</strong> — Missä määrin tulokset ovat yleistettävissä muihin ihmisiin, ympäristöihin ja ajankohtiin.</div>
+`
+  },
+  {
+    id:"ch7", title:"Luku 7: Ei-kokeellinen tutkimus",
+    html:`
+<h2>Luku 7: Ei-kokeellinen tutkimus</h2>
+<h3>Miksi ei-kokeellinen?</h3>
+<p>Kun riippumatonta muuttujaa ei voida manipuloida (esim. sukupuoli, ikä, traumakokemus) tai satunnaistaminen on mahdotonta tai epäeettistä, käytetään ei-kokeellisia asetelmia.</p>
+<div class="key-term"><strong>Keskeinen rajoitus</strong> — Ei-kokeellinen tutkimus ei voi osoittaa syy-seuraussuhteita, ainoastaan yhteyksiä ja korrelaatioita.</div>
+<h3>Korrelatiivinen tutkimus</h3>
+<p>Mitataan kahta tai useampaa muuttujaa ja tarkastellaan niiden välistä yhteyttä.</p>
+<ul>
+  <li><strong>Positiivinen korrelaatio</strong> — molemmat muuttujat kasvavat yhdessä (esim. pituus ja paino).</li>
+  <li><strong>Negatiivinen korrelaatio</strong> — toinen kasvaa, toinen pienenee (esim. liikunta ja masennus).</li>
+  <li><strong>Korrelaatio ei tarkoita kausaliteettia!</strong> — Suuntaongelma ja kolmannen muuttujan ongelma.</li>
+</ul>
+<div class="key-term"><strong>Suuntaongelma (directionality problem)</strong> — Aiheuttaako X:n Y vai Y:n X:n? <strong>Kolmannen muuttujan ongelma</strong> — Mittaamaton muuttuja Z saattaa aiheuttaa sekä X:n että Y:n.</div>
+<h3>Kvasikokeellinen tutkimus</h3>
+<p>Muistuttaa koetta, mutta satunnaistaminen puuttuu. Riippumaton muuttuja on <strong>ei-manipuloitu ryhmittelymuuttuja</strong> (esim. PTSD-ryhmä vs. kontrolliryhmä).</p>
+<div class="key-term"><strong>Epäekvivalenttien ryhmien asetelma</strong> — olemassa olevien ryhmien vertailu. <strong>Esi-jälkitesti-asetelma</strong> — mittaus ennen ja jälkeen tapahtuman.</div>
+<h3>Laadullinen tutkimus</h3>
+<p>Keskittyy kokemusten ymmärtämiseen haastattelujen, havainnoinnin ja tekstianalyysin kautta. Aineisto on sanoja, ei lukuja.</p>
+<ul>
+  <li><strong>Grounded theory (ankkuroitu teoria)</strong> — teoria rakennetaan aineistosta, ei testata olemassa olevaa.</li>
+  <li><strong>Tapaustutkimus</strong> — yksittäisen henkilön, ryhmän tai tapahtuman syvällinen tutkimus.</li>
 </ul>
 `
   },
   {
-    id: "ch9", title: "Ch 9: Survey Research",
-    html: `
-<h2>Chapter 9: Survey Research</h2>
-<h3>Overview</h3>
-<p>Surveys use structured questionnaires to collect data from a sample. Used widely in psychology for measuring attitudes, beliefs, behaviours, and experiences.</p>
-<h3>Constructing Survey Questionnaires</h3>
+    id:"ch8", title:"Luku 8: Monimutkaiset asetelmat",
+    html:`
+<h2>Luku 8: Monimutkaiset tutkimusasetelmat</h2>
+<h3>Useita riippuvia muuttujia</h3>
+<p>Tutkijat mittaavat usein useita riippuvia muuttujia saadakseen kattavamman kuvan vaikutuksesta.</p>
+<h3>Faktoriasetelmat</h3>
+<div class="key-term"><strong>Faktoriasetelma</strong> — Tutkimus, jossa on kaksi tai useampia riippumattomia muuttujia (faktoreita). Kuvataan esim. 2×2-merkinnällä (kaksi muuttujaa, kummallakin kaksi tasoa).</div>
+<p>Faktoriasetelmat voivat paljastaa:</p>
 <ul>
-  <li>Use <strong>clear, simple language</strong> — avoid jargon and double negatives.</li>
-  <li>Avoid <strong>double-barrelled questions</strong> — asking about two things at once.</li>
-  <li>Avoid <strong>leading questions</strong> — suggesting a "correct" answer.</li>
-  <li><strong>Open-ended questions</strong> — allow free responses. <strong>Closed-ended questions</strong> — provide response options.</li>
+  <li><strong>Pääefekti (main effect)</strong> — yhden riippumattoman muuttujan kokonaisvaikutus kaikkien muiden muuttujien tasoilla.</li>
+  <li><strong>Yhdysvaikutus (interaction)</strong> — yhden muuttujan vaikutus riippuu toisen muuttujan tasosta. "Se riippuu" = yhdysvaikutus.</li>
 </ul>
-<div class="key-term"><strong>Likert scale</strong> — A common rating scale (e.g., 1 = Strongly Disagree to 5 = Strongly Agree). Widely used for attitude measurement.</div>
-<div class="key-term"><strong>Response set / social desirability bias</strong> — Tendency to respond in a socially acceptable way rather than truthfully.</div>
-<h3>Sampling</h3>
+<p>Esimerkki: 2 (lääke vs. lume) × 2 (terapia vs. ei terapiaa) -asetelma voi osoittaa, yhdistyvätkö lääke ja terapia odottamattomalla tavalla.</p>
+<h3>Monimutkaiset korrelatiiviset asetelmat</h3>
 <ul>
-  <li><strong>Population</strong> — the entire group of interest.</li>
-  <li><strong>Sample</strong> — the subset actually studied.</li>
-  <li><strong>Probability sampling</strong> — every member of the population has a known chance of selection (e.g., simple random sampling, stratified sampling).</li>
-  <li><strong>Non-probability sampling</strong> — convenience, snowball, purposive sampling. Results cannot be generalised as confidently.</li>
-</ul>
-<div class="key-term"><strong>Sampling bias</strong> — When the sample systematically differs from the population. <strong>Non-response bias</strong> — People who do not respond differ from those who do.</div>
-`
-  },
-  {
-    id: "ch10", title: "Ch 10: Single-Subject Research",
-    html: `
-<h2>Chapter 10: Single-Subject Research</h2>
-<h3>Overview</h3>
-<p>Single-subject research (also called single-case or N-of-1 designs) studies one participant (or a very small number) in great detail over time. Common in behavioural and clinical psychology.</p>
-<h3>Key Designs</h3>
-<div class="key-term"><strong>ABA / reversal design</strong> — Baseline (A) → treatment (B) → withdrawal (A). If behaviour changes with treatment and returns to baseline on withdrawal, it suggests a causal effect.</div>
-<div class="key-term"><strong>Multiple-baseline design</strong> — The treatment is introduced at different times for different behaviours, participants, or settings. If each changes only when treated, causality is inferred.</div>
-<h3>Advantages</h3>
-<ul>
-  <li>Very detailed data on individuals.</li>
-  <li>Useful for rare conditions or when large groups are unavailable.</li>
-  <li>Can demonstrate causal relationships (unlike simple case studies).</li>
-</ul>
-<h3>Limitations</h3>
-<ul>
-  <li>Limited external validity / generalisability.</li>
-  <li>Order effects and carry-over effects can be a concern.</li>
+  <li><strong>Monimuuttujaregressio</strong> — useita ennustajamuuttujia ennustamassa yhtä tulosmuuttujaa.</li>
+  <li><strong>Faktorianalyysi</strong> — tunnistaa korreloivien muuttujien klustereita (faktoreita/konstruktioita).</li>
 </ul>
 `
   },
   {
-    id: "ch11", title: "Ch 11: Presenting Your Research",
-    html: `
-<h2>Chapter 11: Presenting Your Research</h2>
-<h3>APA Style</h3>
-<p>The <strong>American Psychological Association (APA)</strong> publication manual sets the standard for writing in psychology.</p>
-<h3>Research Report Structure (APA Format)</h3>
+    id:"ch9", title:"Luku 9: Kyselytutkimus",
+    html:`
+<h2>Luku 9: Kyselytutkimus</h2>
+<h3>Yleiskatsaus</h3>
+<p>Kyselyt käyttävät strukturoituja lomakkeita aineiston keräämiseen otoksesta. Laajasti käytetty psykologiassa asenteiden, uskomusten, käyttäytymisen ja kokemusten mittaamiseen.</p>
+<h3>Kyselylomakkeen laatiminen</h3>
 <ul>
-  <li><strong>Title page</strong> — title, author, affiliation.</li>
-  <li><strong>Abstract</strong> — 150–250 word summary of the entire paper.</li>
-  <li><strong>Introduction</strong> — literature review, research question, hypotheses.</li>
-  <li><strong>Method</strong> — participants, materials/apparatus, procedure. Must be detailed enough for replication.</li>
-  <li><strong>Results</strong> — statistical analyses (no interpretation).</li>
-  <li><strong>Discussion</strong> — interpretation, limitations, future directions.</li>
-  <li><strong>References</strong> — all cited sources in APA format.</li>
+  <li>Käytä <strong>selkeää, yksinkertaista kieltä</strong> — vältä ammattislangia ja kaksoisnegaatioita.</li>
+  <li>Vältä <strong>kaksoiskysymyksiä (double-barrelled)</strong> — kysyt kahdesta asiasta kerralla.</li>
+  <li>Vältä <strong>johdattelevia kysymyksiä</strong> — vihjaat "oikeasta" vastauksesta.</li>
+  <li><strong>Avoimet kysymykset</strong> — vapaa vastaus. <strong>Suljetut kysymykset</strong> — valmiit vastausvaihtoehdot.</li>
 </ul>
-<div class="key-term"><strong>In-text citation</strong> — (Author, Year) format. E.g., (Mehl et al., 2007). <strong>Reference list</strong> — full details of every source cited.</div>
+<div class="key-term"><strong>Likert-asteikko</strong> — Yleinen arviointiasteikko (esim. 1 = Täysin eri mieltä … 5 = Täysin samaa mieltä). Laajasti käytetty asennemittauksissa.</div>
+<div class="key-term"><strong>Sosiaalisen suotavuuden harha</strong> — Taipumus vastata sosiaalisesti hyväksyttävällä tavalla eikä totuudenmukaisesti.</div>
+<h3>Otanta</h3>
+<ul>
+  <li><strong>Populaatio (perusjoukko)</strong> — koko kiinnostuksen kohteena oleva ryhmä.</li>
+  <li><strong>Otos (sample)</strong> — tutkittava osajoukko.</li>
+  <li><strong>Todennäköisyysotanta</strong> — jokaisella populaation jäsenellä on tunnettu todennäköisyys tulla valituksi (esim. yksinkertainen satunnaisotanta, ositettu otanta).</li>
+  <li><strong>Ei-todennäköisyysotanta</strong> — mukavuusotanta, lumipallo-otanta, tarkoituksenmukainen otanta. Tuloksia ei voida yleistää yhtä luotettavasti.</li>
+</ul>
+<div class="key-term"><strong>Otantaharha</strong> — Otos eroaa systemaattisesti populaatiosta. <strong>Vastaamatta jättämisen harha</strong> — Vastaamattomat eroavat vastaajista.</div>
 `
   },
   {
-    id: "ch12", title: "Ch 12: Descriptive Statistics",
-    html: `
-<h2>Chapter 12: Descriptive Statistics</h2>
-<h3>Describing Single Variables</h3>
-<p><strong>Measures of central tendency</strong>:</p>
+    id:"ch10", title:"Luku 10: Yksittäistapaustutkimus",
+    html:`
+<h2>Luku 10: Yksittäistapaustutkimus</h2>
+<h3>Yleiskatsaus</h3>
+<p>Yksittäistapaustutkimus (single-subject / N-of-1) tutkii yhtä osallistujaa (tai hyvin pientä ryhmää) yksityiskohtaisesti ajan kuluessa. Yleinen käyttäytymis- ja kliinisessä psykologiassa.</p>
+<h3>Keskeiset asetelmat</h3>
+<div class="key-term"><strong>ABA/palautumisasetelma (reversal design)</strong> — Lähtötaso (A) → hoito (B) → palautus (A). Jos käyttäytyminen muuttuu hoidon aikana ja palautuu poistettaessa, viittaa kausaaliseen yhteyteen.</div>
+<div class="key-term"><strong>Moniperusviiva-asetelma (multiple-baseline)</strong> — Hoito otetaan käyttöön eri aikoina eri käyttäytymisille, osallistujille tai ympäristöille. Jos jokainen muuttuu vain hoidon myötä, voidaan päätellä kausaliteetti.</div>
+<h3>Edut</h3>
 <ul>
-  <li><strong>Mean</strong> — arithmetic average. Affected by outliers.</li>
-  <li><strong>Median</strong> — middle value. Robust to outliers.</li>
-  <li><strong>Mode</strong> — most frequent value. The only option for nominal data.</li>
+  <li>Erittäin yksityiskohtaista tietoa yksilöistä.</li>
+  <li>Hyödyllinen harvinaisissa tilanteissa tai pienillä ryhmillä.</li>
+  <li>Voi osoittaa kausaalisia yhteyksiä (toisin kuin pelkkä tapaustutkimus).</li>
 </ul>
-<p><strong>Measures of variability</strong>:</p>
+<h3>Rajoitukset</h3>
 <ul>
-  <li><strong>Range</strong> — max minus min.</li>
-  <li><strong>Standard deviation (SD)</strong> — average distance of scores from the mean. The most commonly reported measure of variability.</li>
-  <li><strong>Variance</strong> — SD squared.</li>
+  <li>Rajallinen ulkoinen validiteetti / yleistettävyys.</li>
+  <li>Järjestysefektit ja siirtymäefektit mahdollisia.</li>
 </ul>
-<div class="key-term"><strong>Normal distribution</strong> — Symmetric, bell-shaped curve. 68% of data within ±1 SD, 95% within ±2 SD, 99.7% within ±3 SD (empirical rule).</div>
-<h3>Describing Relationships</h3>
-<ul>
-  <li><strong>Pearson's r</strong> — measures the strength and direction of a linear relationship between two quantitative variables. Ranges from −1 to +1.</li>
-  <li>r ≈ ±0.1 = weak, ±0.3 = moderate, ±0.5+ = strong (Cohen's guidelines).</li>
-</ul>
-<div class="key-term"><strong>Scatterplot</strong> — A graph showing pairs of scores on two variables. Each dot is one participant.</div>
 `
   },
   {
-    id: "ch13", title: "Ch 13: Inferential Statistics",
-    html: `
-<h2>Chapter 13: Inferential Statistics</h2>
-<h3>Null Hypothesis Testing (NHST)</h3>
-<div class="key-term"><strong>Null hypothesis (H₀)</strong> — There is no effect or no difference (e.g., the means are equal). <strong>Alternative hypothesis (H₁)</strong> — There IS an effect or difference.</div>
-<p>Process: assume H₀ is true → calculate how likely the observed data are under H₀ → if very unlikely (p < α), reject H₀.</p>
-<div class="key-term"><strong>p-value</strong> — The probability of obtaining results at least as extreme as observed, assuming H₀ is true. It is NOT the probability that H₀ is true.</div>
-<div class="key-term"><strong>Alpha level (α)</strong> — The threshold for rejecting H₀, typically set at .05 (5%). If p < .05, the result is "statistically significant".</div>
-<h3>Types of Errors</h3>
+    id:"ch11", title:"Luku 11: Tutkimuksen esittäminen",
+    html:`
+<h2>Luku 11: Tutkimuksen esittäminen</h2>
+<h3>APA-tyyli</h3>
+<p><strong>American Psychological Association (APA)</strong> -julkaisumanuaali asettaa psykologian kirjoittamisen standardin.</p>
+<h3>Tutkimusraportin rakenne (APA-muoto)</h3>
 <ul>
-  <li><strong>Type I error (false positive)</strong> — Rejecting H₀ when it is actually true. Probability = α.</li>
-  <li><strong>Type II error (false negative)</strong> — Failing to reject H₀ when it is actually false. Probability = β.</li>
-  <li><strong>Statistical power</strong> — Probability of correctly rejecting a false H₀ = 1 − β. Increased by larger sample size, larger effect, and α level.</li>
+  <li><strong>Otsikkosivu</strong> — otsikko, tekijä, affiliaatio.</li>
+  <li><strong>Tiivistelmä (abstract)</strong> — 150–250 sanan yhteenveto koko tutkimuksesta.</li>
+  <li><strong>Johdanto</strong> — kirjallisuuskatsaus, tutkimuskysymys, hypoteesit.</li>
+  <li><strong>Menetelmä (Method)</strong> — osallistujat, materiaalit, menetelmä. Riittävän yksityiskohtainen toistettavuutta varten.</li>
+  <li><strong>Tulokset (Results)</strong> — tilastolliset analyysit (ei tulkintaa).</li>
+  <li><strong>Pohdinta (Discussion)</strong> — tulkinta, rajoitukset, tulevaisuuden suunnat.</li>
+  <li><strong>Lähdeluettelo (References)</strong> — kaikki viitatut lähteet APA-muodossa.</li>
 </ul>
-<h3>Common Tests</h3>
+<div class="key-term"><strong>Tekstiviittaus</strong> — (Tekijä, vuosi) -muoto. Esim. (Mehl ym., 2007). <strong>Lähdeluettelo</strong> — jokaisen lähteen täydelliset tiedot.</div>
+`
+  },
+  {
+    id:"ch12", title:"Luku 12: Kuvaileva tilastotiede",
+    html:`
+<h2>Luku 12: Kuvaileva tilastotiede</h2>
+<h3>Yksittäisen muuttujan kuvaaminen</h3>
+<p><strong>Keskiluvut (central tendency)</strong>:</p>
 <ul>
-  <li><strong>t-test</strong> — compares means of two groups (independent-samples or paired-samples).</li>
-  <li><strong>ANOVA (Analysis of Variance)</strong> — compares means of three or more groups. Uses the F statistic.</li>
-  <li><strong>Chi-square (χ²) test</strong> — tests association between categorical variables.</li>
-  <li><strong>Correlation (Pearson's r)</strong> — tests if the correlation significantly differs from zero.</li>
+  <li><strong>Keskiarvo (mean)</strong> — aritmeettinen keskiarvo. Herkkä poikkeaville arvoille.</li>
+  <li><strong>Mediaani</strong> — keskimmäinen arvo. Kestää poikkeavia arvoja.</li>
+  <li><strong>Moodi (mode)</strong> — yleisin arvo. Ainoa vaihtoehto nominaalitason aineistolle.</li>
 </ul>
-<h3>Effect Size</h3>
-<div class="key-term"><strong>Effect size</strong> — A measure of the magnitude of the effect, independent of sample size. <strong>Cohen's d</strong> (for differences): 0.2 = small, 0.5 = medium, 0.8 = large. <strong>r</strong> or <strong>η²</strong> for correlational designs.</div>
-<h3>Confidence Intervals</h3>
-<p>A <strong>95% confidence interval</strong> means: if we repeated the study many times, 95% of the computed intervals would contain the true population parameter.</p>
-<h3>Replication Crisis & Open Science</h3>
-<p>Many psychology findings have failed to replicate. Responses include:</p>
+<p><strong>Hajontaluvut (variability)</strong>:</p>
 <ul>
-  <li><strong>Pre-registration</strong> — publishing the research plan before collecting data.</li>
-  <li><strong>Open data and open materials</strong> — sharing data and study materials publicly.</li>
-  <li><strong>Replication studies</strong> — deliberately repeating previous studies.</li>
-  <li>Awareness of <strong>p-hacking</strong> (trying many analyses until p < .05) and <strong>HARKing</strong> (Hypothesising After Results are Known).</li>
+  <li><strong>Vaihteluväli (range)</strong> — suurin arvo miinus pienin.</li>
+  <li><strong>Keskihajonta (standard deviation, SD)</strong> — arvojen keskimääräinen etäisyys keskiarvosta. Yleisin hajonnan mitta.</li>
+  <li><strong>Varianssi</strong> — keskihajonnan neliö.</li>
+</ul>
+<div class="key-term"><strong>Normaalijakauma</strong> — Symmetrinen, kellonmuotoinen käyrä. 68 % arvoista ±1 SD:n sisällä, 95 % ±2 SD:n sisällä, 99,7 % ±3 SD:n sisällä (empiirinen sääntö).</div>
+<h3>Yhteyksien kuvaaminen</h3>
+<ul>
+  <li><strong>Pearsonin r</strong> — mittaa lineaarisen yhteyden voimakkuutta ja suuntaa kahden kvantitatiivisen muuttujan välillä. Vaihteluväli: −1...+1.</li>
+  <li>r ≈ ±0,1 = heikko, ±0,3 = kohtalainen, ±0,5+ = vahva (Cohenin ohjeet).</li>
+</ul>
+<div class="key-term"><strong>Hajontakuvio (scatterplot)</strong> — Kuvaaja, jossa jokainen piste edustaa yhtä havaintoa kahdella muuttujalla.</div>
+`
+  },
+  {
+    id:"ch13", title:"Luku 13: Päättelytilastotiede",
+    html:`
+<h2>Luku 13: Päättelytilastotiede</h2>
+<h3>Nollahypoteesin testaus (NHST)</h3>
+<div class="key-term"><strong>Nollahypoteesi (H₀)</strong> — Efektiä tai eroa ei ole (esim. keskiarvot ovat yhtä suuret). <strong>Vaihtoehtoinen hypoteesi (H₁)</strong> — Efekti tai ero ON olemassa.</div>
+<p>Prosessi: oletetaan H₀ todeksi → lasketaan kuinka todennäköinen havaittu tulos on H₀:n ollessa tosi → jos hyvin epätodennäköinen (p < α), hylätään H₀.</p>
+<div class="key-term"><strong>p-arvo</strong> — Todennäköisyys saada vähintään yhtä äärimmäinen tulos, olettaen H₀:n todeksi. Se EI ole todennäköisyys sille, että H₀ on tosi.</div>
+<div class="key-term"><strong>Alfa-taso (α)</strong> — Kynnys H₀:n hylkäämiselle, tyypillisesti 0,05 (5 %). Jos p < 0,05, tulos on "tilastollisesti merkitsevä".</div>
+<h3>Virhetyypit</h3>
+<ul>
+  <li><strong>Tyypin I virhe (väärä positiivinen)</strong> — H₀ hylätään, vaikka se on tosi. Todennäköisyys = α.</li>
+  <li><strong>Tyypin II virhe (väärä negatiivinen)</strong> — H₀:ta ei hylätä, vaikka se on epätosi. Todennäköisyys = β.</li>
+  <li><strong>Tilastollinen voima (power)</strong> — Todennäköisyys hylätä oikeutetusti epätosi H₀ = 1 − β. Kasvaa suuremmalla otoskoolla, suuremmalla efektillä ja väljemmällä alfa-tasolla.</li>
+</ul>
+<h3>Yleiset testit</h3>
+<ul>
+  <li><strong>t-testi</strong> — vertaa kahden ryhmän keskiarvoja (riippumattomat tai parittaiset).</li>
+  <li><strong>ANOVA (varianssianalyysi)</strong> — vertaa kolmen tai useamman ryhmän keskiarvoja. Käyttää F-testiä.</li>
+  <li><strong>Khiin neliö -testi (χ²)</strong> — testaa kategoristen muuttujien yhteyttä.</li>
+  <li><strong>Korrelaatio (Pearsonin r)</strong> — testaa eroaako korrelaatio merkitsevästi nollasta.</li>
+</ul>
+<h3>Efektikoko</h3>
+<div class="key-term"><strong>Efektikoko</strong> — Efektin suuruuden mitta, riippumaton otoskoosta. <strong>Cohenin d</strong> (eroille): 0,2 = pieni, 0,5 = keskisuuri, 0,8 = suuri. <strong>r</strong> tai <strong>η²</strong> korrelatiivisille asetelmille.</div>
+<h3>Luottamusvälit</h3>
+<p><strong>95 % luottamusväli</strong> tarkoittaa: jos tutkimus toistettaisiin monta kertaa, 95 % lasketuista väleistä sisältäisi todellisen populaatioparametrin.</p>
+<h3>Replikaatiokriisi ja avoin tiede</h3>
+<p>Monet psykologian löydökset eivät ole replikoituneet. Ratkaisuja:</p>
+<ul>
+  <li><strong>Esirekisteröinti (pre-registration)</strong> — tutkimussuunnitelman julkaiseminen ennen aineistonkeruuta.</li>
+  <li><strong>Avoin data ja avoimet materiaalit</strong> — aineiston ja tutkimusmateriaalien jakaminen julkisesti.</li>
+  <li><strong>Replikaatiotutkimukset</strong> — aiempien tutkimusten tarkoituksellinen toistaminen.</li>
+  <li>Tietoisuus <strong>p-hakkeroinnista</strong> (monia analyyseja kunnes p < 0,05) ja <strong>HARKingista</strong> (hypoteesien muodostaminen tulosten tuntemisen jälkeen).</li>
 </ul>
 `
   }
 ];
 
-// ╔══════════════════════════════════════════╗
-// ║          QUIZ QUESTIONS                  ║
-// ╚══════════════════════════════════════════╝
+// ══════════════════════════════════════
+//  TENTTIVÄITTÄMÄT (suomeksi)
+// ══════════════════════════════════════
 const QUESTIONS = [
-  // CH 1 — Science of Psychology
-  {cat:"Science of Psychology",q:"The three fundamental features of science are systematic empiricism, empirical questions, and public knowledge.",correct:true,explanation:"These are the defining characteristics that distinguish science from non-science."},
-  {cat:"Science of Psychology",q:"Empirical questions are those that can be answered by reasoning alone, without observation.",correct:false,explanation:"Empirical questions are answered through systematic observation and data collection, not reasoning alone."},
-  {cat:"Science of Psychology",q:"Basic research is conducted to solve a specific practical problem.",correct:false,explanation:"Basic research aims to learn about behaviour for its own sake. Applied research is conducted to solve practical problems."},
-  {cat:"Science of Psychology",q:"Pseudoscience refers to beliefs that are claimed to be scientific but lack one or more features of science.",correct:true,explanation:"Pseudosciences like astrology or graphology may appear scientific but lack systematic empiricism, empirical testability, or public knowledge."},
-  {cat:"Science of Psychology",q:"Venting anger (e.g., punching something) has been shown by research to effectively reduce anger.",correct:false,explanation:"Bushman (2002) showed that venting anger actually tends to leave people feeling MORE angry, not less. This is an example of folk psychology being wrong."},
-  {cat:"Science of Psychology",q:"An empirically supported treatment (EST) is a therapy backed by systematic research evidence.",correct:true,explanation:"ESTs are clinical treatments whose effectiveness has been demonstrated through controlled research (e.g., CBT for depression)."},
+  // LUKU 1
+  {cat:"Psykologia tieteenä",q:"Tieteen kolme peruspiirrettä ovat systemaattinen empirismi, empiiriset kysymykset ja julkinen tieto.",correct:true,explanation:"Nämä ovat tieteen määrittelevät piirteet, jotka erottavat sen ei-tieteestä."},
+  {cat:"Psykologia tieteenä",q:"Empiiriset kysymykset ovat sellaisia, joihin voidaan vastata pelkällä päättelyllä ilman havaintoja.",correct:false,explanation:"Empiiriset kysymykset vaativat systemaattisia havaintoja ja aineistonkeruuta — pelkkä järkeily ei riitä."},
+  {cat:"Psykologia tieteenä",q:"Perustutkimusta tehdään jonkin käytännön ongelman ratkaisemiseksi.",correct:false,explanation:"Perustutkimus pyrkii ymmärtämään käyttäytymistä sinänsä. Soveltava tutkimus ratkaisee käytännön ongelmia."},
+  {cat:"Psykologia tieteenä",q:"Pseudotiede tarkoittaa väitteitä, jotka esitetään tieteellisinä, mutta joista puuttuu yksi tai useampi tieteen peruspiirre.",correct:true,explanation:"Pseudotieteet (esim. astrologia, grafologia) saattavat vaikuttaa tieteellisiltä, mutta eivät täytä tieteen kriteereitä."},
+  {cat:"Psykologia tieteenä",q:"Tutkimus on osoittanut, että vihan purkaminen (esim. nyrkkeileminen) vähentää tehokkaasti vihaa.",correct:false,explanation:"Bushman (2002) osoitti, että vihan purkaminen itse asiassa LISÄÄ vihaa. Tämä on esimerkki arkipsykologian virheellisyydestä."},
+  {cat:"Psykologia tieteenä",q:"Empiirisesti tuettu hoito (EST) on terapiamuoto, jonka teho on osoitettu järjestelmällisessä tutkimuksessa.",correct:true,explanation:"EST:t ovat kliinisiä hoitoja, joiden vaikuttavuus on osoitettu kontrolloiduissa tutkimuksissa (esim. KKT masennukseen)."},
 
-  // CH 2 — Getting Started
-  {cat:"Getting Started in Research",q:"An operational definition defines a variable in terms of how it will be measured or manipulated.",correct:true,explanation:"For example, defining 'stress' as score on the Perceived Stress Scale is an operational definition."},
-  {cat:"Getting Started in Research",q:"A confounding variable is any variable other than the IV that could influence the DV.",correct:false,explanation:"That describes an extraneous variable. A confounding variable specifically co-varies systematically with the IV, making it impossible to determine which caused the effect."},
-  {cat:"Getting Started in Research",q:"PsycINFO is the primary database for finding psychological research literature.",correct:true,explanation:"PsycINFO, maintained by the APA, is the most comprehensive database for psychology research."},
-  {cat:"Getting Started in Research",q:"A meta-analysis is a study that collects new original data from a very large sample.",correct:false,explanation:"A meta-analysis statistically combines results from multiple EXISTING studies. It does not collect new original data."},
-  {cat:"Getting Started in Research",q:"In peer review, research is evaluated by independent experts before publication.",correct:true,explanation:"Peer review is a quality-control process where other researchers evaluate the methodology and conclusions before a study is published."},
+  // LUKU 2
+  {cat:"Tutkimuksen perusteet",q:"Operationaalinen määritelmä kuvaa muuttujan sen mittaus- tai manipulointitavan kautta.",correct:true,explanation:"Esim. 'stressin' määritteleminen Perceived Stress Scale -pistemääränä on operationaalinen määritelmä."},
+  {cat:"Tutkimuksen perusteet",q:"Sekoittava muuttuja on mikä tahansa riippumattoman muuttujan lisäksi riippuvaan muuttujaan vaikuttava tekijä.",correct:false,explanation:"Se kuvaa ulkoista muuttujaa yleensä. Sekoittava muuttuja vaihtelee nimenomaan systemaattisesti riippumattoman muuttujan kanssa, tehden syy-seurauspäätelmän mahdottomaksi."},
+  {cat:"Tutkimuksen perusteet",q:"PsycINFO on psykologian ensisijainen tutkimustietokanta.",correct:true,explanation:"APA:n ylläpitämä PsycINFO on kattavin psykologian tutkimustietokanta."},
+  {cat:"Tutkimuksen perusteet",q:"Meta-analyysi on tutkimus, jossa kerätään uutta alkuperäisaineistoa erittäin suurelta otokselta.",correct:false,explanation:"Meta-analyysi yhdistää OLEMASSA OLEVIEN tutkimusten tulokset tilastollisesti. Se ei kerää uutta alkuperäisaineistoa."},
+  {cat:"Tutkimuksen perusteet",q:"Vertaisarvioinnissa tutkimus arvioidaan riippumattomien asiantuntijoiden toimesta ennen julkaisua.",correct:true,explanation:"Vertaisarviointi on laadunvarmistusprosessi, jossa muut tutkijat arvioivat menetelmät ja johtopäätökset."},
 
-  // CH 3 — Ethics
-  {cat:"Research Ethics",q:"The three core ethical principles from the Belmont Report are respect for persons, beneficence, and justice.",correct:true,explanation:"Respect for persons (autonomy), beneficence (minimise harm, maximise benefit), and justice (fair distribution of costs and benefits)."},
-  {cat:"Research Ethics",q:"Deception in research is never allowed under any circumstances.",correct:false,explanation:"Deception is allowed when there is no alternative, the study has scientific value, and it is followed by debriefing. The ethics committee must approve it."},
-  {cat:"Research Ethics",q:"Informed consent means participants must be told about the study's purpose, procedures, risks, and their right to withdraw.",correct:true,explanation:"Informed consent is a fundamental ethical requirement. Participants must voluntarily agree to participate with full information."},
-  {cat:"Research Ethics",q:"Debriefing occurs before the study begins to prepare participants.",correct:false,explanation:"Debriefing occurs AFTER participation. It involves telling participants the true purpose of the study, especially if deception was used."},
-  {cat:"Research Ethics",q:"The 'three Rs' in animal research ethics are Replacement, Refinement, and Reduction.",correct:true,explanation:"Replace animals with alternatives when possible, refine procedures to minimise suffering, and reduce the number of animals used."},
-  {cat:"Research Ethics",q:"The Tuskegee syphilis study is an example of ethical research conduct.",correct:false,explanation:"The Tuskegee study (1932–1972) was deeply unethical — researchers withheld treatment from African American men with syphilis without their informed consent."},
+  // LUKU 3
+  {cat:"Tutkimusetiikka",q:"Belmontin raportin kolme eettistä ydinperiaatetta ovat henkilöiden kunnioittaminen, hyväntahtoisuus ja oikeudenmukaisuus.",correct:true,explanation:"Henkilöiden kunnioittaminen (autonomia), hyväntahtoisuus (minimoi haitat, maksimoi hyödyt) ja oikeudenmukaisuus (kustannusten ja hyötyjen reilu jakautuminen)."},
+  {cat:"Tutkimusetiikka",q:"Harhaanjohtaminen tutkimuksessa ei ole koskaan sallittua missään olosuhteissa.",correct:false,explanation:"Harhaanjohtaminen on sallittua, kun vaihtoehtoja ei ole, tutkimuksella on tieteellistä arvoa ja eettinen toimikunta hyväksyy sen. Jälkikeskustelu on pakollinen."},
+  {cat:"Tutkimusetiikka",q:"Tietoon perustuva suostumus tarkoittaa, että osallistujille kerrotaan tutkimuksen tarkoitus, menetelmät, riskit ja oikeus vetäytyä.",correct:true,explanation:"Tietoon perustuva suostumus on etiikan perusvaatimus. Osallistujien on vapaaehtoisesti suostuttava osallistumaan täysin informoituina."},
+  {cat:"Tutkimusetiikka",q:"Jälkikeskustelu (debriefing) tapahtuu ennen tutkimuksen alkua osallistujien valmistelemiseksi.",correct:false,explanation:"Jälkikeskustelu tapahtuu JÄLKEEN osallistumisen. Siinä kerrotaan tutkimuksen todellinen tarkoitus, erityisesti jos harhaanjohtamista on käytetty."},
+  {cat:"Tutkimusetiikka",q:"Eläintutkimuksen etiikan kolme R:ää ovat Replacement (korvaaminen), Refinement (parantaminen) ja Reduction (vähentäminen).",correct:true,explanation:"Korvaa eläimet vaihtoehdoilla mahdollisuuksien mukaan, paranna menetelmiä kärsimyksen minimoimiseksi ja vähennä käytettävien eläinten määrää."},
+  {cat:"Tutkimusetiikka",q:"Tuskegeen syfilis-tutkimus on esimerkki eettisestä tutkimustyöstä.",correct:false,explanation:"Tuskegeen tutkimus (1932–1972) oli syvästi epäeettinen — tutkijat pidättivät hoidon afroamerikkalaisilta miehiltä ilman heidän tietoon perustuvaa suostumustaan."},
 
-  // CH 4 — Theory
-  {cat:"Theory in Psychology",q:"A theory is a coherent explanation of one or more phenomena that goes beyond description.",correct:true,explanation:"Theories explain WHY phenomena occur, not just describe them."},
-  {cat:"Theory in Psychology",q:"A hypothesis is a broad theoretical framework that cannot be directly tested.",correct:false,explanation:"A hypothesis is a SPECIFIC, testable prediction derived from a theory. Theories themselves are broader and tested indirectly through hypotheses."},
-  {cat:"Theory in Psychology",q:"Falsifiability means a theory can potentially be disproved by observations.",correct:true,explanation:"According to Karl Popper, falsifiability is a key criterion for scientific theories. A theory that cannot be disproven by any possible observation is not scientific."},
-  {cat:"Theory in Psychology",q:"Parsimony means preferring the most complex explanation available.",correct:false,explanation:"Parsimony (Occam's razor) means preferring the SIMPLEST explanation that accounts for the data."},
-  {cat:"Theory in Psychology",q:"When a hypothesis is confirmed, the theory is supported but never definitively 'proved'.",correct:true,explanation:"Science operates through provisional support. Confirming hypotheses strengthens a theory but can never prove it with 100% certainty."},
+  // LUKU 4
+  {cat:"Teoria psykologiassa",q:"Teoria on johdonmukainen selitys yhdelle tai useammalle ilmiölle, joka ylittää pelkän kuvailun.",correct:true,explanation:"Teoriat selittävät MIKSI ilmiöt tapahtuvat, eivät pelkästään kuvaile niitä."},
+  {cat:"Teoria psykologiassa",q:"Hypoteesi on laaja teoreettinen viitekehys, jota ei voida suoraan testata.",correct:false,explanation:"Hypoteesi on SPESIFINEN, testattavissa oleva ennuste, joka on johdettu teoriasta. Teoriat itsessään ovat laajempia ja niitä testataan epäsuorasti hypoteesien kautta."},
+  {cat:"Teoria psykologiassa",q:"Falsifioitavuus tarkoittaa, että teoria voidaan periaatteessa kumota havaintojen perusteella.",correct:true,explanation:"Karl Popperin mukaan falsifioitavuus on tieteellisen teorian keskeinen kriteeri. Teoria, jota ei voida kumota millään mahdollisella havainnolla, ei ole tieteellinen."},
+  {cat:"Teoria psykologiassa",q:"Parsimonia tarkoittaa monimutkaisimman mahdollisen selityksen suosimista.",correct:false,explanation:"Parsimonia (Occamin partaveitsi) tarkoittaa YKSINKERTAISIMMAN selityksen suosimista, joka selittää aineiston."},
+  {cat:"Teoria psykologiassa",q:"Kun hypoteesi vahvistuu, teoria saa tukea mutta sitä ei koskaan lopullisesti 'todisteta'.",correct:true,explanation:"Tiede toimii väliaikaisen tuen kautta. Hypoteesien vahvistaminen vahvistaa teoriaa, mutta ei koskaan todista sitä 100 % varmasti."},
 
-  // CH 5 — Measurement
-  {cat:"Psychological Measurement",q:"Nominal measurement involves categories with no meaningful order.",correct:true,explanation:"Examples: gender, ethnicity, eye colour. You cannot rank these categories meaningfully."},
-  {cat:"Psychological Measurement",q:"IQ is measured at the ratio level because it has equal intervals and a true zero.",correct:false,explanation:"IQ is measured at the INTERVAL level (equal intervals but no true zero — IQ of 0 does not mean zero intelligence). Ratio examples: height, weight, reaction time."},
-  {cat:"Psychological Measurement",q:"Test-retest reliability measures the consistency of a test over time.",correct:true,explanation:"The same test is administered twice and scores are correlated. High correlation = good test-retest reliability."},
-  {cat:"Psychological Measurement",q:"Face validity is the strongest form of validity.",correct:false,explanation:"Face validity is the WEAKEST form — it merely means the test appears to measure the construct. Construct validity (including convergent and discriminant) is the most comprehensive."},
-  {cat:"Psychological Measurement",q:"Cronbach's alpha is a measure of internal consistency reliability.",correct:true,explanation:"Cronbach's alpha indicates the degree to which items in a test all measure the same underlying construct."},
-  {cat:"Psychological Measurement",q:"Discriminant validity means a measure correlates highly with measures of the same construct.",correct:false,explanation:"That describes CONVERGENT validity. Discriminant validity means a measure does NOT correlate with measures of different/unrelated constructs."},
-  {cat:"Psychological Measurement",q:"Construct validity is the broadest type of validity, encompassing convergent and discriminant validity.",correct:true,explanation:"Construct validity asks whether the measure truly captures the theoretical construct it claims to measure, including both convergent and discriminant evidence."},
+  // LUKU 5
+  {cat:"Psykologinen mittaaminen",q:"Nominaalitason mittauksessa kategorioilla on merkityksellinen järjestys.",correct:false,explanation:"Nominaalitason luokilla EI ole järjestystä (esim. sukupuoli, silmien väri). Järjestys on ordinaalitason piirre."},
+  {cat:"Psykologinen mittaaminen",q:"Älykkyysosamäärä (ÄO) mitataan suhdeasteikolla, koska sillä on yhtä suuret välit ja todellinen nollapiste.",correct:false,explanation:"ÄO on INTERVALLITASON mittaus (yhtä suuret välit mutta ei todellista nollaa — ÄO 0 ei tarkoita nollaälyä). Suhdeasteikkomuuttujia ovat esim. pituus ja paino."},
+  {cat:"Psykologinen mittaaminen",q:"Testi-uusintatesti-reliabiliteetti mittaa mittauksen johdonmukaisuutta ajan yli.",correct:true,explanation:"Sama testi tehdään kahdesti ja pisteitä verrataan. Korkea korrelaatio = hyvä testi-uusintatesti-reliabiliteetti."},
+  {cat:"Psykologinen mittaaminen",q:"Ilmivaliditeetti (face validity) on validiteetin vahvin muoto.",correct:false,explanation:"Ilmivaliditeetti on HEIKOIN muoto — mittari vain näyttää mittaavan oikeaa asiaa. Rakennevaliditeetti (sis. konvergentti ja diskriminantti) on kattavin."},
+  {cat:"Psykologinen mittaaminen",q:"Cronbachin alfa on sisäisen konsistenssin reliabiliteetin mittari.",correct:true,explanation:"Cronbachin alfa kertoo, missä määrin testin osiot mittaavat samaa taustalla olevaa konstruktiota."},
+  {cat:"Psykologinen mittaaminen",q:"Diskriminantti validiteetti tarkoittaa, että mittari korreloi vahvasti samaa konstruktiota mittaavien mittarien kanssa.",correct:false,explanation:"Se kuvaa KONVERGENTTIA validiteettia. Diskriminantti validiteetti tarkoittaa, että mittari EI korreloi eri konstruktioiden mittarien kanssa."},
+  {cat:"Psykologinen mittaaminen",q:"Rakennevaliditeetti on laajin validiteetin tyyppi ja sisältää konvergentin ja diskriminantin validiteetin.",correct:true,explanation:"Rakennevaliditeetti arvioi, mittaako mittari todella sitä teoreettista konstruktiota, jota sen väitetään mittaavan."},
 
-  // CH 6 — Experimental Research
-  {cat:"Experimental Research",q:"The three key features of an experiment are manipulation of an IV, measurement of a DV, and control of extraneous variables.",correct:true,explanation:"These three features together allow researchers to establish cause-and-effect relationships."},
-  {cat:"Experimental Research",q:"In a between-subjects design, the same participants are tested in all conditions.",correct:false,explanation:"That describes a WITHIN-subjects (repeated measures) design. In between-subjects, DIFFERENT participants are in each condition."},
-  {cat:"Experimental Research",q:"Random assignment gives each participant an equal chance of being placed in any condition.",correct:true,explanation:"Random assignment is the primary method for controlling confounding variables in between-subjects designs, ensuring groups are equivalent at the start."},
-  {cat:"Experimental Research",q:"Counterbalancing is used to control order effects in between-subjects designs.",correct:false,explanation:"Counterbalancing controls order effects in WITHIN-subjects designs (where the same participants experience all conditions). Between-subjects designs use random assignment."},
-  {cat:"Experimental Research",q:"Internal validity refers to how well results can be generalised to other populations.",correct:false,explanation:"That describes EXTERNAL validity. Internal validity refers to the degree of confidence that the IV caused the change in the DV (no confounds)."},
-  {cat:"Experimental Research",q:"A placebo group receives an inert treatment to control for expectancy effects.",correct:true,explanation:"The placebo group controls for the possibility that improvement occurs simply because participants expect to improve, not because of the treatment itself."},
+  // LUKU 6
+  {cat:"Kokeellinen tutkimus",q:"Kokeen kolme keskeistä piirrettä ovat riippumattoman muuttujan manipulointi, riippuvan muuttujan mittaaminen ja ulkoisten muuttujien kontrollointi.",correct:true,explanation:"Nämä kolme piirrettä yhdessä mahdollistavat syy-seuraussuhteiden osoittamisen."},
+  {cat:"Kokeellinen tutkimus",q:"Ryhmien välisessä asetelmassa (between-subjects) samoja osallistujia testataan kaikissa koetilanteissa.",correct:false,explanation:"Se kuvaa toistettujen mittausten asetelmaa (within-subjects). Ryhmien välisessä asetelmassa ERI osallistujat ovat eri koeryhmissä."},
+  {cat:"Kokeellinen tutkimus",q:"Satunnaistaminen antaa jokaiselle osallistujalle yhtä suuren mahdollisuuden joutua mihin tahansa koeryhmään.",correct:true,explanation:"Satunnaistaminen on ensisijainen tapa kontrolloida sekoittavia tekijöitä ryhmien välisissä asetelmissa."},
+  {cat:"Kokeellinen tutkimus",q:"Vastapanotusta (counterbalancing) käytetään järjestysefektien kontrolloimiseksi ryhmien välisissä asetelmissa.",correct:false,explanation:"Vastapanotus kontrolloi järjestysefektejä TOISTETTUJEN MITTAUSTEN asetelmissa. Ryhmien välisissä asetelmissa käytetään satunnaistamista."},
+  {cat:"Kokeellinen tutkimus",q:"Sisäinen validiteetti tarkoittaa tulosten yleistettävyyttä muihin populaatioihin.",correct:false,explanation:"Se kuvaa ULKOISTA validiteettia. Sisäinen validiteetti tarkoittaa luottamusta siihen, että nimenomaan riippumaton muuttuja aiheutti riippuvan muuttujan muutoksen."},
+  {cat:"Kokeellinen tutkimus",q:"Lumeryhmä (placebo) saa vaikuttamattoman hoidon odotusefektien kontrolloimiseksi.",correct:true,explanation:"Lumeryhmä kontrolloi mahdollisuutta, että parannus johtuu pelkästä odotuksesta eikä itse hoidosta."},
 
-  // CH 7 — Non-experimental Research
-  {cat:"Non-experimental Research",q:"Correlational research can establish cause-and-effect relationships.",correct:false,explanation:"Correlation does not imply causation. The directionality problem and third-variable problem prevent causal conclusions from correlational data."},
-  {cat:"Non-experimental Research",q:"A positive correlation means both variables increase together.",correct:true,explanation:"In a positive correlation, as one variable increases, the other also tends to increase (e.g., height and weight)."},
-  {cat:"Non-experimental Research",q:"The directionality problem means we cannot determine whether X causes Y or Y causes X in correlational research.",correct:true,explanation:"Without experimental manipulation, the direction of causality is ambiguous in correlational studies."},
-  {cat:"Non-experimental Research",q:"Quasi-experimental designs use random assignment to create groups.",correct:false,explanation:"Quasi-experiments LACK random assignment — this is their defining feature. Groups are based on pre-existing characteristics (e.g., age, diagnosis)."},
-  {cat:"Non-experimental Research",q:"The third-variable problem occurs when an unmeasured variable might cause both correlated variables.",correct:true,explanation:"Example: Ice cream sales and drowning rates are correlated, but the third variable (hot weather) causes both."},
-  {cat:"Non-experimental Research",q:"Grounded theory builds theory from data rather than testing a pre-existing theory.",correct:true,explanation:"In grounded theory (a qualitative approach), the researcher collects data first and develops theory inductively from patterns in the data."},
+  // LUKU 7
+  {cat:"Ei-kokeellinen tutkimus",q:"Korrelatiivisella tutkimuksella voidaan osoittaa syy-seuraussuhteita.",correct:false,explanation:"Korrelaatio ei osoita kausaatiota. Suuntaongelma ja kolmannen muuttujan ongelma estävät kausaalipäätelmät."},
+  {cat:"Ei-kokeellinen tutkimus",q:"Positiivinen korrelaatio tarkoittaa, että molemmat muuttujat kasvavat yhdessä.",correct:true,explanation:"Positiivisessa korrelaatiossa toisen muuttujan kasvaessa toinenkin kasvaa (esim. pituus ja paino)."},
+  {cat:"Ei-kokeellinen tutkimus",q:"Suuntaongelma tarkoittaa, ettei voida päätellä aiheuttaako X:n Y:n vai Y:n X:n korrelatiivisessa tutkimuksessa.",correct:true,explanation:"Ilman kokeellista manipulointia kausaliteetin suunta jää epäselväksi."},
+  {cat:"Ei-kokeellinen tutkimus",q:"Kvasikokeellisissa tutkimuksissa käytetään satunnaistamista ryhmien muodostamiseksi.",correct:false,explanation:"Kvasikokeista PUUTTUU satunnaistaminen — se on niiden määrittelevä piirre. Ryhmät perustuvat olemassa oleviin ominaisuuksiin (esim. ikä, diagnoosi)."},
+  {cat:"Ei-kokeellinen tutkimus",q:"Kolmannen muuttujan ongelma tarkoittaa, että mittaamaton muuttuja saattaa aiheuttaa molemmat korreloidut muuttujat.",correct:true,explanation:"Esimerkki: jäätelön myynti ja hukkumiskuolemat korreloivat, mutta kolmas muuttuja (kuuma sää) aiheuttaa molemmat."},
+  {cat:"Ei-kokeellinen tutkimus",q:"Ankkuroitu teoria (grounded theory) rakentaa teoriaa aineistosta sen sijaan, että testaa olemassa olevaa teoriaa.",correct:true,explanation:"Ankkuroidussa teoriassa (laadullinen menetelmä) tutkija kerää ensin aineiston ja kehittää teorian induktiivisesti sen pohjalta."},
 
-  // CH 8 — Complex Designs
-  {cat:"Complex Research Designs",q:"A 2×2 factorial design has two independent variables, each with two levels.",correct:true,explanation:"The notation describes the number of IVs (factors) and their levels. 2×2 = two IVs, each with two levels = 4 conditions total."},
-  {cat:"Complex Research Designs",q:"A main effect describes how the effect of one IV depends on the level of another IV.",correct:false,explanation:"That describes an INTERACTION. A main effect is the overall effect of one IV, averaged across all levels of the other IV(s)."},
-  {cat:"Complex Research Designs",q:"An interaction in a factorial design means 'it depends' — the effect of one IV changes across levels of another.",correct:true,explanation:"When an interaction is present, the effect of one factor is different depending on the level of the other factor."},
-  {cat:"Complex Research Designs",q:"Multiple regression uses multiple predictor variables to predict one outcome variable.",correct:true,explanation:"Multiple regression extends simple regression by including two or more predictor (independent) variables to explain variance in the dependent variable."},
-  {cat:"Complex Research Designs",q:"Factor analysis tests whether one variable causes another.",correct:false,explanation:"Factor analysis identifies clusters of correlated variables (latent factors). It does not test causal relationships."},
+  // LUKU 8
+  {cat:"Monimutkaiset asetelmat",q:"2×2-faktoriasetelma sisältää kaksi riippumatonta muuttujaa, kummallakin kaksi tasoa.",correct:true,explanation:"Merkintä kuvaa faktorien ja niiden tasojen määrän. 2×2 = kaksi faktoria, kummallakin kaksi tasoa = yhteensä 4 koetilannetta."},
+  {cat:"Monimutkaiset asetelmat",q:"Pääefekti kuvaa, miten yhden riippumattoman muuttujan vaikutus riippuu toisen muuttujan tasosta.",correct:false,explanation:"Se kuvaa YHDYSVAIKUTUSTA (interaction). Pääefekti on yhden muuttujan kokonaisvaikutus, keskiarvoistettuina toisten muuttujien tasoilla."},
+  {cat:"Monimutkaiset asetelmat",q:"Yhdysvaikutus (interaction) faktori-asetelmassa tarkoittaa, että yhden muuttujan vaikutus muuttuu toisen muuttujan tason mukaan.",correct:true,explanation:"Kun yhdysvaikutus on olemassa, yhden tekijän vaikutus on erilainen riippuen toisen tekijän tasosta."},
+  {cat:"Monimutkaiset asetelmat",q:"Monimuuttujaregressio käyttää useita ennustajamuuttujia yhden tulosmuuttujan ennustamiseen.",correct:true,explanation:"Monimuuttujaregressio laajentaa yksinkertaista regressiota sisällyttämällä useita ennustajamuuttujia."},
+  {cat:"Monimutkaiset asetelmat",q:"Faktorianalyysi testaa, aiheuttaako yksi muuttuja toisen.",correct:false,explanation:"Faktorianalyysi tunnistaa korreloivien muuttujien klustereita (latentteja faktoreita). Se ei testaa kausaalisia suhteita."},
 
-  // CH 9 — Survey Research
-  {cat:"Survey Research",q:"A double-barrelled question asks about two different things at once.",correct:true,explanation:"Example: 'Do you find the course interesting and useful?' — a respondent might find it interesting but not useful. Each aspect should be a separate question."},
-  {cat:"Survey Research",q:"A Likert scale typically uses a range like 1 (Strongly Disagree) to 5 (Strongly Agree).",correct:true,explanation:"Likert scales are the most commonly used rating scales in psychology surveys for measuring attitudes."},
-  {cat:"Survey Research",q:"In probability sampling, every member of the population has a known chance of being selected.",correct:true,explanation:"Probability sampling (e.g., simple random sampling, stratified sampling) allows generalisation to the population and statistical inference."},
-  {cat:"Survey Research",q:"Convenience sampling is a type of probability sampling.",correct:false,explanation:"Convenience sampling is NON-probability sampling — participants are selected based on availability, not random selection. Results cannot be generalised as confidently."},
-  {cat:"Survey Research",q:"Social desirability bias means participants tend to answer in a way they think is socially acceptable.",correct:true,explanation:"This is a major threat in surveys about sensitive topics. Participants may under-report socially undesirable behaviours and over-report desirable ones."},
-  {cat:"Survey Research",q:"Non-response bias occurs when the people who respond to a survey differ systematically from those who don't.",correct:true,explanation:"If non-responders differ from responders on the variable of interest, the survey results will not accurately represent the population."},
+  // LUKU 9
+  {cat:"Kyselytutkimus",q:"Kaksoiskysymys (double-barrelled question) kysyy kahdesta eri asiasta kerralla.",correct:true,explanation:"Esim. 'Onko kurssi kiinnostava ja hyödyllinen?' — vastaaja voi pitää sitä kiinnostavana mutta ei hyödyllisenä."},
+  {cat:"Kyselytutkimus",q:"Likert-asteikko käyttää tyypillisesti vaihteluväliä 1 (Täysin eri mieltä) — 5 (Täysin samaa mieltä).",correct:true,explanation:"Likert-asteikot ovat psykologian kyselytutkimusten yleisin arviointiasteikko asenteiden mittaamisessa."},
+  {cat:"Kyselytutkimus",q:"Todennäköisyysotannassa jokaisella populaation jäsenellä on tunnettu mahdollisuus tulla valituksi.",correct:true,explanation:"Todennäköisyysotanta (esim. yksinkertainen satunnaisotanta) mahdollistaa tulosten yleistämisen populaatioon."},
+  {cat:"Kyselytutkimus",q:"Mukavuusotanta on todennäköisyysotannan muoto.",correct:false,explanation:"Mukavuusotanta on EI-TODENNÄKÖISYYSOTANTAA — osallistujat valitaan saatavuuden perusteella, ei satunnaisesti."},
+  {cat:"Kyselytutkimus",q:"Sosiaalisen suotavuuden harha tarkoittaa taipumusta vastata sosiaalisesti hyväksyttävällä tavalla.",correct:true,explanation:"Tämä on merkittävä uhka erityisesti arkaluontoisia aiheita koskevissa kyselyissä."},
+  {cat:"Kyselytutkimus",q:"Vastaamatta jättämisen harha syntyy, kun vastaamattomat eroavat systemaattisesti vastaajista.",correct:true,explanation:"Jos vastaamattomat poikkeavat vastaajista tutkittavan asian suhteen, tulokset eivät edusta populaatiota tarkasti."},
 
-  // CH 10 — Single-Subject
-  {cat:"Single-Subject Research",q:"In an ABA (reversal) design, the treatment is introduced and then withdrawn to see if behaviour changes.",correct:true,explanation:"A = baseline, B = treatment, A = withdrawal. If behaviour changes with B and returns with the second A, it suggests a causal effect of the treatment."},
-  {cat:"Single-Subject Research",q:"Single-subject research has excellent external validity and generalisability.",correct:false,explanation:"Single-subject research has LIMITED external validity because results from one individual may not generalise to others. Its strength is detailed individual data."},
-  {cat:"Single-Subject Research",q:"A multiple-baseline design introduces treatment at different times for different behaviours or participants.",correct:true,explanation:"If change occurs only when treatment is introduced for each behaviour/participant, this provides evidence of causality without needing withdrawal."},
+  // LUKU 10
+  {cat:"Yksittäistapaustutkimus",q:"ABA-asetelmassa (palautumisasetelma) hoito otetaan käyttöön ja poistetaan käyttäytymismuutoksen tarkkailemiseksi.",correct:true,explanation:"A = lähtötaso, B = hoito, A = palautus. Jos käyttäytyminen muuttuu B:ssä ja palautuu toisessa A:ssa, viittaa kausaaliseen yhteyteen."},
+  {cat:"Yksittäistapaustutkimus",q:"Yksittäistapaustutkimuksella on erinomainen ulkoinen validiteetti ja yleistettävyys.",correct:false,explanation:"Yksittäistapaustutkimuksen ulkoinen validiteetti on RAJALLINEN, koska yhden yksilön tulokset eivät välttämättä yleisty muihin."},
+  {cat:"Yksittäistapaustutkimus",q:"Moniperusviiva-asetelmassa hoito aloitetaan eri aikoina eri käyttäytymisille tai osallistujille.",correct:true,explanation:"Jos muutos tapahtuu vain kunkin käyttäytymisen/osallistujan kohdalla hoidon alkaessa, voidaan päätellä kausaalinen yhteys ilman hoidon poistamista."},
 
-  // CH 11 — Presenting Research
-  {cat:"Presenting Research",q:"The Method section of an APA research report must be detailed enough for replication.",correct:true,explanation:"Replicability is a cornerstone of science. The Method section describes participants, materials, and procedure in sufficient detail for another researcher to repeat the study."},
-  {cat:"Presenting Research",q:"The Discussion section of an APA paper contains the statistical analyses.",correct:false,explanation:"Statistical analyses go in the RESULTS section. The Discussion section interprets the findings, discusses limitations, and suggests future directions."},
-  {cat:"Presenting Research",q:"An abstract is a 150-250 word summary of the entire research paper.",correct:true,explanation:"The abstract appears at the beginning and summarises the research question, method, results, and conclusions."},
+  // LUKU 11
+  {cat:"Tutkimuksen esittäminen",q:"APA-tutkimusraportin menetelmäosion tulee olla riittävän yksityiskohtainen tutkimuksen toistamista varten.",correct:true,explanation:"Toistettavuus on tieteen kulmakivi. Menetelmäosio kuvaa osallistujat, materiaalit ja menettelyn riittävän tarkasti."},
+  {cat:"Tutkimuksen esittäminen",q:"Pohdinta-osio (Discussion) sisältää tilastolliset analyysit.",correct:false,explanation:"Tilastolliset analyysit kuuluvat TULOKSET-osioon. Pohdinnassa tulkitaan tuloksia, käsitellään rajoituksia ja esitetään tulevaisuuden suuntia."},
+  {cat:"Tutkimuksen esittäminen",q:"Tiivistelmä (abstract) on 150–250 sanan yhteenveto koko tutkimuspaperista.",correct:true,explanation:"Tiivistelmä on paperin alussa ja tiivistää tutkimuskysymyksen, menetelmän, tulokset ja johtopäätökset."},
 
-  // CH 12 — Descriptive Statistics
-  {cat:"Descriptive Statistics",q:"The mean is more robust to outliers than the median.",correct:false,explanation:"The MEDIAN is more robust to outliers. The mean is pulled toward extreme values, while the median (middle value) is not."},
-  {cat:"Descriptive Statistics",q:"Standard deviation is the most commonly reported measure of variability.",correct:true,explanation:"SD measures the average distance of scores from the mean and is the standard measure of spread in psychological research."},
-  {cat:"Descriptive Statistics",q:"In a normal distribution, approximately 95% of data falls within ±2 standard deviations of the mean.",correct:true,explanation:"The empirical rule: 68% within ±1 SD, 95% within ±2 SD, 99.7% within ±3 SD."},
-  {cat:"Descriptive Statistics",q:"Pearson's r ranges from 0 to +1.",correct:false,explanation:"Pearson's r ranges from −1 to +1. Negative values indicate a negative (inverse) relationship; positive values indicate a positive relationship."},
-  {cat:"Descriptive Statistics",q:"According to Cohen's guidelines, r = 0.5 is considered a strong correlation.",correct:true,explanation:"Cohen's guidelines: r ≈ 0.1 = small, 0.3 = medium, 0.5+ = large/strong."},
-  {cat:"Descriptive Statistics",q:"The mode is the only measure of central tendency appropriate for nominal data.",correct:true,explanation:"You cannot calculate a mean or median for categories (e.g., favourite colour). The most frequent category (mode) is the only option."},
+  // LUKU 12
+  {cat:"Kuvaileva tilastotiede",q:"Keskiarvo on mediaania vastustuskykyisempi poikkeaville arvoille (outlier).",correct:false,explanation:"MEDIAANI on kestävämpi poikkeaville arvoille. Keskiarvo vetäytyy ääriarvojen suuntaan."},
+  {cat:"Kuvaileva tilastotiede",q:"Keskihajonta on yleisin raportoitu hajonnan mitta.",correct:true,explanation:"Keskihajonta mittaa arvojen keskimääräistä etäisyyttä keskiarvosta ja on psykologisen tutkimuksen vakiomitta."},
+  {cat:"Kuvaileva tilastotiede",q:"Normaalijakaumassa noin 95 % arvoista on ±2 keskihajonnan sisällä keskiarvosta.",correct:true,explanation:"Empiirinen sääntö: 68 % ±1 SD:n sisällä, 95 % ±2 SD:n sisällä, 99,7 % ±3 SD:n sisällä."},
+  {cat:"Kuvaileva tilastotiede",q:"Pearsonin r vaihtelee 0:sta +1:een.",correct:false,explanation:"Pearsonin r vaihtelee −1:stä +1:een. Negatiiviset arvot kuvaavat käänteistä yhteyttä; positiiviset suoraa yhteyttä."},
+  {cat:"Kuvaileva tilastotiede",q:"Cohenin ohjeiden mukaan r = 0,5 on vahva korrelaatio.",correct:true,explanation:"Cohenin ohjeet: r ≈ 0,1 = pieni, 0,3 = kohtalainen, 0,5+ = suuri/vahva."},
+  {cat:"Kuvaileva tilastotiede",q:"Moodi on ainoa nominaalitason aineistolle sopiva keskiluku.",correct:true,explanation:"Kategorioille (esim. lempiväri) ei voi laskea keskiarvoa tai mediaania. Yleisin luokka (moodi) on ainoa vaihtoehto."},
 
-  // CH 13 — Inferential Statistics
-  {cat:"Inferential Statistics",q:"The null hypothesis states that there is no effect or no difference.",correct:true,explanation:"H₀ is the default assumption that there is no relationship or difference. The researcher tries to reject H₀ by finding evidence for the alternative hypothesis."},
-  {cat:"Inferential Statistics",q:"A p-value is the probability that the null hypothesis is true.",correct:false,explanation:"A common misconception! The p-value is the probability of obtaining results at least as extreme as observed, ASSUMING H₀ is true. It is not the probability of H₀ being true."},
-  {cat:"Inferential Statistics",q:"A Type I error occurs when we reject H₀ when it is actually true (a false positive).",correct:true,explanation:"Type I error = false alarm. Its probability equals α (usually .05). Type II error = miss (failing to reject a false H₀)."},
-  {cat:"Inferential Statistics",q:"Statistical power is the probability of correctly rejecting a false null hypothesis.",correct:true,explanation:"Power = 1 − β. It is increased by larger sample sizes, larger effect sizes, and less restrictive alpha levels."},
-  {cat:"Inferential Statistics",q:"A statistically significant result always means the effect is large and practically important.",correct:false,explanation:"Statistical significance depends on sample size. With very large samples, even trivially small effects can be statistically significant. Effect size measures practical importance."},
-  {cat:"Inferential Statistics",q:"Cohen's d of 0.8 is considered a large effect size.",correct:true,explanation:"Cohen's guidelines for d: 0.2 = small, 0.5 = medium, 0.8 = large."},
-  {cat:"Inferential Statistics",q:"ANOVA uses the F statistic to compare means of three or more groups.",correct:true,explanation:"One-way ANOVA tests whether at least two group means are significantly different, using the F ratio (between-group variance / within-group variance)."},
-  {cat:"Inferential Statistics",q:"A 95% confidence interval means there is a 95% probability that the true parameter lies within this specific interval.",correct:false,explanation:"Strictly, it means: if we repeated the study many times, 95% of the computed intervals would contain the true population parameter. Any single interval either does or does not contain it."},
-  {cat:"Inferential Statistics",q:"P-hacking involves trying many analyses until one yields p < .05.",correct:true,explanation:"P-hacking inflates the false positive rate. Open science practices like pre-registration help prevent this."},
-  {cat:"Inferential Statistics",q:"HARKing stands for 'Hypothesising After Results are Known'.",correct:true,explanation:"HARKing means presenting post-hoc hypotheses (formed after seeing the data) as if they were a priori predictions. This is considered a questionable research practice."},
-  {cat:"Inferential Statistics",q:"Pre-registration means publishing the research plan before collecting data.",correct:true,explanation:"Pre-registration is an open science practice that prevents p-hacking and HARKing by committing to analyses in advance."},
-  {cat:"Inferential Statistics",q:"The chi-square test is used to compare means of two groups.",correct:false,explanation:"Chi-square tests associations between CATEGORICAL variables. To compare means, you would use a t-test (two groups) or ANOVA (three or more groups)."}
+  // LUKU 13
+  {cat:"Päättelytilastotiede",q:"Nollahypoteesi väittää, ettei efektiä tai eroa ole.",correct:true,explanation:"H₀ on oletusarvio: yhteyttä tai eroa ei ole. Tutkija pyrkii hylkäämään H₀:n löytämällä näyttöä vaihtoehtoiselle hypoteesille."},
+  {cat:"Päättelytilastotiede",q:"p-arvo on todennäköisyys sille, että nollahypoteesi on tosi.",correct:false,explanation:"Yleinen väärinkäsitys! p-arvo on todennäköisyys saada vähintään yhtä äärimmäinen tulos OLETTAEN H₀:n todeksi. Se ei ole H₀:n totuuden todennäköisyys."},
+  {cat:"Päättelytilastotiede",q:"Tyypin I virhe tapahtuu, kun H₀ hylätään, vaikka se on tosi (väärä positiivinen).",correct:true,explanation:"Tyypin I virhe = väärä hälytys. Sen todennäköisyys = α (yleensä 0,05). Tyypin II virhe = missataan todellinen efekti."},
+  {cat:"Päättelytilastotiede",q:"Tilastollinen voima on todennäköisyys hylätä oikeutetusti epätosi nollahypoteesi.",correct:true,explanation:"Voima = 1 − β. Se kasvaa suuremmalla otoskoolla, suuremmalla efektikoolla ja väljemmällä alfa-tasolla."},
+  {cat:"Päättelytilastotiede",q:"Tilastollisesti merkitsevä tulos tarkoittaa aina, että efekti on suuri ja käytännössä tärkeä.",correct:false,explanation:"Tilastollinen merkitsevyys riippuu otoskoosta. Hyvin suurilla otoksilla pienetkin merkityksettömät efektit voivat olla merkitseviä. Efektikoko kertoo käytännön merkityksestä."},
+  {cat:"Päättelytilastotiede",q:"Cohenin d = 0,8 on suuri efektikoko.",correct:true,explanation:"Cohenin ohjeet d:lle: 0,2 = pieni, 0,5 = keskisuuri, 0,8 = suuri."},
+  {cat:"Päättelytilastotiede",q:"ANOVA käyttää F-testiä kolmen tai useamman ryhmän keskiarvojen vertailuun.",correct:true,explanation:"Yksisuuntainen ANOVA testaa, eroavatko vähintään kahden ryhmän keskiarvot toisistaan merkitsevästi F-suhteen avulla."},
+  {cat:"Päättelytilastotiede",q:"95 % luottamusväli tarkoittaa, että on 95 % todennäköisyys, että todellinen parametri sijaitsee tämän nimenomaisen välin sisällä.",correct:false,explanation:"Tarkasti: jos tutkimus toistettaisiin monta kertaa, 95 % lasketuista väleistä sisältäisi todellisen parametrin. Yksittäinen väli joko sisältää sen tai ei."},
+  {cat:"Päättelytilastotiede",q:"P-hakkerointi tarkoittaa monien analyysien kokeilemista kunnes saadaan p < 0,05.",correct:true,explanation:"P-hakkerointi kasvattaa väärien positiivisten todennäköisyyttä. Esirekisteröinti auttaa estämään tätä."},
+  {cat:"Päättelytilastotiede",q:"HARKing tarkoittaa hypoteesien muodostamista tulosten tuntemisen jälkeen.",correct:true,explanation:"HARKing (Hypothesising After Results are Known) = jälkikäteishypoteesien esittäminen ikään kuin ne olisi muodostettu etukäteen. Kyseenalainen tutkimuskäytäntö."},
+  {cat:"Päättelytilastotiede",q:"Esirekisteröinti tarkoittaa tutkimussuunnitelman julkaisemista ennen aineistonkeruuta.",correct:true,explanation:"Esirekisteröinti on avoimen tieteen käytäntö, joka estää p-hakkerointia ja HARKingia sitoutumalla analyyseihin etukäteen."},
+  {cat:"Päättelytilastotiede",q:"Khiin neliö -testiä käytetään kahden ryhmän keskiarvojen vertailuun.",correct:false,explanation:"Khiin neliö testaa KATEGORISTEN muuttujien yhteyttä. Keskiarvojen vertailuun käytetään t-testiä (2 ryhmää) tai ANOVAa (3+ ryhmää)."}
 ];
 
-// ╔══════════════════════════════════════════╗
-// ║            APP LOGIC                     ║
-// ╚══════════════════════════════════════════╝
-let mode = 'study';
-let currentChapter = 0;
-let quizCat = 'all';
-let queue = [], qIdx = 0, score = 0, answered = false;
+// ══════════════════════════════════════
+//  SOVELLUSLOGIIKKA
+// ══════════════════════════════════════
+let mode='study',currentChapter=0,quizCat='all',queue=[],qIdx=0,score=0,answered=false;
 
-// Mode toggle
-function setMode(m) {
-  mode = m;
-  document.querySelectorAll('.mode-btn').forEach((b,i) => b.classList.toggle('active', (m==='study'?0:1)===i));
-  document.getElementById('studyArea').classList.toggle('show', m==='study');
-  document.getElementById('quizArea').classList.toggle('show', m==='quiz');
-  if (m==='quiz') restartQuiz();
+function setMode(m){
+  mode=m;
+  document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(m==='study'?0:1)===i));
+  document.getElementById('studyArea').classList.toggle('show',m==='study');
+  document.getElementById('quizArea').classList.toggle('show',m==='quiz');
+  if(m==='quiz')restartQuiz();
 }
-
-// ── STUDY ──
-function buildStudy() {
-  const nav = document.getElementById('chapterNav');
-  CHAPTERS.forEach((ch, i) => {
-    const btn = document.createElement('button');
-    btn.className = 'ch-btn' + (i===0?' active':'');
-    btn.textContent = ch.title.replace('Ch ','').split(':')[0];
-    btn.onclick = () => showChapter(i);
-    nav.appendChild(btn);
-  });
+function buildStudy(){
+  const nav=document.getElementById('chapterNav');
+  CHAPTERS.forEach((ch,i)=>{const btn=document.createElement('button');btn.className='ch-btn'+(i===0?' active':'');btn.textContent=ch.title.replace('Luku ','').split(':')[0];btn.onclick=()=>showChapter(i);nav.appendChild(btn);});
   showChapter(0);
 }
-function showChapter(i) {
-  currentChapter = i;
-  document.querySelectorAll('.ch-btn').forEach((b,j) => b.classList.toggle('active', j===i));
-  document.getElementById('studyContent').innerHTML = CHAPTERS[i].html;
+function showChapter(i){currentChapter=i;document.querySelectorAll('.ch-btn').forEach((b,j)=>b.classList.toggle('active',j===i));document.getElementById('studyContent').innerHTML=CHAPTERS[i].html;}
+function buildCatBar(){
+  const cats=[...new Set(QUESTIONS.map(q=>q.cat))];
+  const bar=document.getElementById('categoryBar');
+  bar.innerHTML='<button class="cat-btn active" onclick="setCat(\'all\')">Kaikki</button>';
+  cats.forEach(c=>{const b=document.createElement('button');b.className='cat-btn';b.textContent=c;b.onclick=()=>setCat(c);bar.appendChild(b);});
 }
-
-// ── QUIZ ──
-function buildCatBar() {
-  const cats = [...new Set(QUESTIONS.map(q=>q.cat))];
-  const bar = document.getElementById('categoryBar');
-  bar.innerHTML = '<button class="cat-btn active" onclick="setCat(\'all\')">All</button>';
-  cats.forEach(c => {
-    const b = document.createElement('button');
-    b.className='cat-btn'; b.textContent=c; b.onclick=()=>setCat(c);
-    bar.appendChild(b);
-  });
-}
-function setCat(c) {
-  quizCat = c;
-  document.querySelectorAll('#categoryBar .cat-btn').forEach(b => b.classList.toggle('active', (c==='all'&&b.textContent==='All')||b.textContent===c));
-  restartQuiz();
-}
+function setCat(c){quizCat=c;document.querySelectorAll('#categoryBar .cat-btn').forEach(b=>b.classList.toggle('active',(c==='all'&&b.textContent==='Kaikki')||b.textContent===c));restartQuiz();}
 function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
-function restartQuiz(){
-  const pool = quizCat==='all'?QUESTIONS:QUESTIONS.filter(q=>q.cat===quizCat);
-  queue=shuffle(pool); qIdx=0; score=0; answered=false;
-  document.getElementById('resultScreen').classList.remove('show');
-  document.getElementById('quizInner').style.display='block';
-  showQ();
-}
+function restartQuiz(){const pool=quizCat==='all'?QUESTIONS:QUESTIONS.filter(q=>q.cat===quizCat);queue=shuffle(pool);qIdx=0;score=0;answered=false;document.getElementById('resultScreen').classList.remove('show');document.getElementById('quizInner').style.display='block';showQ();}
 function restartSame(){restartQuiz();}
 function showQ(){
-  if(qIdx>=queue.length){showResult();return;}
-  answered=false;
-  const q=queue[qIdx];
+  if(qIdx>=queue.length){showResult();return;}answered=false;const q=queue[qIdx];
   document.getElementById('progressFill').style.width=(qIdx/queue.length*100)+'%';
-  document.getElementById('questionCounter').textContent=`${qIdx+1} / ${queue.length}`;
-  document.getElementById('scorePill').textContent=`Correct: ${score}`;
+  document.getElementById('questionCounter').textContent=`Väittämä ${qIdx+1} / ${queue.length}`;
+  document.getElementById('scorePill').textContent=`Oikein: ${score}`;
   document.getElementById('catBadge').textContent=q.cat;
   document.getElementById('questionText').textContent=q.q;
   document.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=false;b.className=b.classList.contains('true-btn')?'tf-btn true-btn':'tf-btn false-btn';});
-  document.getElementById('explanation').className='explanation';
-  document.getElementById('explanation').innerHTML='';
-  document.getElementById('nextBtn').className='next-btn';
+  document.getElementById('explanation').className='explanation';document.getElementById('explanation').innerHTML='';document.getElementById('nextBtn').className='next-btn';
 }
 function selectAnswer(userTrue){
-  if(answered)return; answered=true;
-  const q=queue[qIdx], ok=(userTrue===q.correct);
-  if(ok)score++;
+  if(answered)return;answered=true;const q=queue[qIdx],ok=(userTrue===q.correct);if(ok)score++;
   document.querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);
   const tb=document.querySelector('.true-btn'),fb=document.querySelector('.false-btn');
   if(userTrue){tb.classList.add(ok?'selected-correct':'selected-wrong');if(!ok)fb.classList.add('was-correct');}
   else{fb.classList.add(ok?'selected-correct':'selected-wrong');if(!ok)tb.classList.add('was-correct');}
   const el=document.getElementById('explanation');
-  el.innerHTML=`<strong>${ok?'✓ Correct!':'✗ Wrong — the statement is '+(q.correct?'TRUE':'FALSE')+'.'}</strong> ${q.explanation}`;
-  el.className='explanation show';
-  document.getElementById('nextBtn').className='next-btn show';
+  el.innerHTML=`<strong>${ok?'✓ Oikein!':'✗ Väärin — väittämä oli '+(q.correct?'OIKEIN':'VÄÄRIN')+'.'}</strong> ${q.explanation}`;
+  el.className='explanation show';document.getElementById('nextBtn').className='next-btn show';
 }
 function nextQuestion(){qIdx++;showQ();}
 function showResult(){
@@ -662,12 +604,10 @@ function showResult(){
   const rs=document.getElementById('resultScreen');rs.classList.add('show');
   const pct=Math.round(score/queue.length*100);
   document.getElementById('resultScore').textContent=`${score}/${queue.length}`;
-  let g='';if(pct>=90)g='🏆 Excellent!';else if(pct>=75)g='🎯 Good job!';else if(pct>=60)g='📚 Decent — review more!';else g='💪 Keep studying!';
+  let g='';if(pct>=90)g='🏆 Erinomainen!';else if(pct>=75)g='🎯 Hyvä suoritus!';else if(pct>=60)g='📚 Kohtuullinen – kertaa vielä!';else g='💪 Lisää opiskelua tarvitaan!';
   document.getElementById('resultGrade').textContent=g;
 }
-
-buildStudy();
-buildCatBar();
+buildStudy();buildCatBar();
 </script>
 </body>
 </html>
