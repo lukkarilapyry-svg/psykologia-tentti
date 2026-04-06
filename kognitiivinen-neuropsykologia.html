@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="fi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kognitiivinen ja neuropsykologia</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Segoe UI',system-ui,sans-serif;background:linear-gradient(135deg,#e65100 0%,#6a1b9a 100%);min-height:100vh;padding:20px}
+.container{max-width:840px;margin:0 auto}
+h1{text-align:center;color:#fff;font-size:1.8rem;margin-bottom:4px;text-shadow:0 2px 4px rgba(0,0,0,.3)}
+.subtitle{text-align:center;color:rgba(255,255,255,.85);font-size:.85rem;margin-bottom:18px;line-height:1.4}
+.home-link{display:block;text-align:center;color:rgba(255,255,255,.7);font-size:.8rem;margin-bottom:14px;text-decoration:none}
+.home-link:hover{color:#fff}
+.mode-toggle{display:flex;justify-content:center;gap:8px;margin-bottom:18px}
+.mode-btn{background:rgba(255,255,255,.2);color:#fff;border:1px solid rgba(255,255,255,.4);border-radius:24px;padding:8px 22px;font-size:.9rem;cursor:pointer;font-weight:600;transition:all .2s}
+.mode-btn:hover,.mode-btn.active{background:#fff;color:#6a1b9a}
+.category-bar{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:18px}
+.cat-btn{background:rgba(255,255,255,.15);color:#fff;border:1px solid rgba(255,255,255,.3);border-radius:18px;padding:4px 12px;font-size:.72rem;cursor:pointer;transition:all .2s}
+.cat-btn:hover,.cat-btn.active{background:#fff;color:#6a1b9a;font-weight:600}
+.card{background:#fff;border-radius:16px;padding:28px;box-shadow:0 10px 40px rgba(0,0,0,.2)}
+.study-area{display:none}.study-area.show{display:block}
+.chapter-nav{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px}
+.ch-btn{background:#f3e5f5;color:#6a1b9a;border:1px solid #ce93d8;border-radius:8px;padding:6px 12px;font-size:.78rem;cursor:pointer;font-weight:600;transition:all .2s}
+.ch-btn:hover,.ch-btn.active{background:#6a1b9a;color:#fff;border-color:#6a1b9a}
+.study-content h2{font-size:1.25rem;color:#6a1b9a;margin-bottom:12px;border-bottom:2px solid #f3e5f5;padding-bottom:8px}
+.study-content h3{font-size:1rem;color:#e65100;margin:18px 0 8px}
+.study-content p{font-size:.92rem;color:#333;line-height:1.65;margin-bottom:10px}
+.study-content ul{margin:8px 0 12px 20px;font-size:.9rem;color:#444;line-height:1.6}
+.study-content li{margin-bottom:4px}
+.key-term{background:#fff8e1;border-left:3px solid #ff8f00;padding:8px 12px;border-radius:6px;margin:10px 0;font-size:.88rem}
+.key-term strong{color:#e65100}
+.quiz-area{display:none}.quiz-area.show{display:block}
+.progress-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;font-size:.85rem;color:#666}
+.progress-bar{background:#eee;border-radius:8px;height:8px;margin-bottom:20px;overflow:hidden}
+.progress-fill{background:linear-gradient(90deg,#e65100,#6a1b9a);height:100%;border-radius:8px;transition:width .4s}
+.category-badge{display:inline-block;background:#f3e5f5;color:#6a1b9a;border-radius:12px;padding:3px 12px;font-size:.75rem;font-weight:600;margin-bottom:14px}
+.question-text{font-size:1.1rem;font-weight:600;color:#222;line-height:1.55;margin-bottom:22px}
+.tf-buttons{display:flex;gap:14px;margin-bottom:18px}
+.tf-btn{flex:1;padding:16px;border-radius:12px;font-size:1.1rem;font-weight:700;cursor:pointer;transition:all .2s;border:3px solid;text-align:center}
+.tf-btn.true-btn{background:#f0fff4;border-color:#28a745;color:#28a745}
+.tf-btn.true-btn:hover:not(:disabled){background:#28a745;color:#fff}
+.tf-btn.false-btn{background:#fff5f5;border-color:#dc3545;color:#dc3545}
+.tf-btn.false-btn:hover:not(:disabled){background:#dc3545;color:#fff}
+.tf-btn:disabled{cursor:default;opacity:.6}
+.tf-btn.selected-correct{background:#28a745;color:#fff;border-color:#28a745;opacity:1}
+.tf-btn.selected-wrong{background:#dc3545;color:#fff;border-color:#dc3545;opacity:1}
+.tf-btn.was-correct{background:#28a745;color:#fff;border-color:#28a745;opacity:1}
+.explanation{display:none;background:#f3e5f5;border-left:4px solid #6a1b9a;border-radius:8px;padding:14px 16px;font-size:.9rem;color:#333;line-height:1.6;margin-bottom:18px}
+.explanation.show{display:block}
+.explanation strong{color:#6a1b9a}
+.next-btn{display:none;background:linear-gradient(135deg,#e65100,#6a1b9a);color:#fff;border:none;border-radius:10px;padding:13px 28px;font-size:1rem;font-weight:600;cursor:pointer;width:100%;transition:opacity .2s}
+.next-btn:hover{opacity:.9}.next-btn.show{display:block}
+.result-screen{display:none;text-align:center}.result-screen.show{display:block}
+.result-score{font-size:3.5rem;font-weight:800;color:#6a1b9a;margin:16px 0 8px}
+.result-label{font-size:1.1rem;color:#555;margin-bottom:24px}
+.result-grade{font-size:1.5rem;font-weight:700;margin-bottom:24px}
+.restart-btn{background:linear-gradient(135deg,#e65100,#6a1b9a);color:#fff;border:none;border-radius:10px;padding:14px 32px;font-size:1rem;font-weight:600;cursor:pointer;margin:6px;transition:opacity .2s}
+.restart-btn:hover{opacity:.9}
+.restart-btn.outline{background:#fff;color:#6a1b9a;border:2px solid #6a1b9a}
+.score-pill{background:#f3e5f5;border-radius:20px;padding:4px 14px;font-size:.82rem;color:#6a1b9a;font-weight:600}
+.source-note{text-align:center;color:rgba(255,255,255,.7);font-size:.72rem;margin-top:14px;line-height:1.4}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>Kognitiivinen ja neuropsykologia</h1>
+  <p class="subtitle">Eysenck & Brysbaert: Fundamentals of Cognition (luvut 1–5)<br>Paavilainen: Toimivat aivot (osat I–VI, XIII)</p>
+  <a class="home-link" href="index.html">← Takaisin valikkoon</a>
+  <div class="mode-toggle">
+    <button class="mode-btn active" onclick="setMode('study')">📖 Opiskelu</button>
+    <button class="mode-btn" onclick="setMode('quiz')">✅ Tenttiharjoittelu</button>
+  </div>
+  <div class="card">
+    <div class="study-area show" id="studyArea">
+      <div class="chapter-nav" id="chapterNav"></div>
+      <div class="study-content" id="studyContent"></div>
+    </div>
+    <div class="quiz-area" id="quizArea">
+      <div class="category-bar" id="categoryBar"></div>
+      <div id="quizInner">
+        <div class="progress-row">
+          <span id="questionCounter">1 / 1</span>
+          <span class="score-pill" id="scorePill">Oikein: 0</span>
+        </div>
+        <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="category-badge" id="catBadge"></div>
+        <div class="question-text" id="questionText"></div>
+        <div class="tf-buttons">
+          <button class="tf-btn true-btn" onclick="selectAnswer(true)">OIKEIN</button>
+          <button class="tf-btn false-btn" onclick="selectAnswer(false)">VÄÄRIN</button>
+        </div>
+        <div class="explanation" id="explanation"></div>
+        <button class="next-btn" id="nextBtn" onclick="nextQuestion()">Seuraava väittämä →</button>
+      </div>
+      <div class="result-screen" id="resultScreen">
+        <div style="font-size:2.5rem">🎓</div>
+        <div class="result-score" id="resultScore">0/0</div>
+        <div class="result-label">oikeaa vastausta</div>
+        <div class="result-grade" id="resultGrade"></div>
+        <button class="restart-btn" onclick="restartQuiz()">Aloita alusta</button>
+        <button class="restart-btn outline" onclick="restartSame()">Sama kategoria uudelleen</button>
+      </div>
+    </div>
+  </div>
+  <p class="source-note">Lähteet: Eysenck & Brysbaert, Fundamentals of Cognition 3rd ed. (2018) · Paavilainen, Toimivat aivot 2. painos (2020)</p>
+</div>
+
+<script>
+// ══════════════════════════════════════
+//  OPISKELUMATERIAALI
+// ══════════════════════════════════════
+const CHAPTERS = [
+{
+  id:"ch1", title:"1: Kognitiivinen psykologia ja neurotiede",
+  html:`
+<h2>1. Kognitiivisen psykologian ja neurotieteen perusteet</h2>
+<h3>Mitä on kognitiivinen psykologia?</h3>
+<p>Kognitiivinen psykologia tutkii ihmisen tiedonkäsittelyä: havaitsemista, tarkkaavaisuutta, muistia, kieltä, ajattelua ja päätöksentekoa. Se syntyi 1950–60-luvuilla reaktiona behaviorismiin.</p>
+<div class="key-term"><strong>Kognitiivinen vallankumous</strong> — Siirtymä behaviorismista (vain ulkoinen käyttäytyminen) kognitiiviseen psykologiaan (sisäiset mielen prosessit). Keskeisiä vaikuttajia: Broadbent, Neisser, Chomsky.</div>
+<div class="key-term"><strong>Tiedonkäsittelymalli (information processing)</strong> — Mieli analogiana tietokoneelle: syöte (input) → prosessointi → tuotos (output). Perusmalli kognitiivisessa psykologiassa.</div>
+<h3>Kognitiivisen neurotieteen juuret ja mieli–aivot-suhde</h3>
+<p>Kognitiivinen neurotiede yhdistää kognitiivisen psykologian ja neurotieteen. Se tutkii, miten aivot tuottavat mielen toiminnot.</p>
+<ul>
+  <li><strong>Dualismi (Descartes)</strong> — mieli ja keho ovat erillisiä substansseja.</li>
+  <li><strong>Materialismi / monismi</strong> — mielen ilmiöt ovat aivojen toimintaa. Nykyinen tieteellinen näkemys.</li>
+  <li><strong>Frenologia (Gall)</strong> — kallon muodosta pääteltiin persoonallisuus. Pseudotiede, mutta aloitti keskustelun aivoalueiden erikoistumisesta.</li>
+  <li><strong>Broca (1861)</strong> — vasemman otsalohkon vaurio → puheen tuottamisen häiriö (Brocan afasia). Osoitti aivoalueiden erikoistumisen.</li>
+  <li><strong>Wernicke (1874)</strong> — vasemman ohimolohkon vaurio → puheen ymmärtämisen häiriö (Wernicken afasia).</li>
+</ul>
+<h3>Tutkimusmenetelmät</h3>
+<ul>
+  <li><strong>Kokeelliset menetelmät</strong> — reaktioaikamittaukset, tarkkuus, priming-kokeet.</li>
+  <li><strong>Neuropsykologiset tapaustutkimukset</strong> — aivovauriopotilaiden tutkiminen → päätelmät aivoalueiden toiminnasta.</li>
+  <li><strong>Aivokuvantamismenetelmät</strong> — katso seuraava luku.</li>
+  <li><strong>Kaksoisdissosiaatio</strong> — kaksi potilasta, joista toisella toiminto A on häiriintynyt mutta B säilynyt, ja toisella päinvastoin → A ja B ovat erillisiä prosesseja.</li>
+</ul>
+`
+},
+{
+  id:"ch2", title:"2: Aivojen rakenne ja toiminta",
+  html:`
+<h2>2. Aivojen rakenne ja toiminta</h2>
+<h3>Hermosolu (neuroni)</h3>
+<div class="key-term"><strong>Neuroni</strong> — Hermoston perusyksikkö. Osat: sooma (solukeskus), dendriitit (vastaanottavat signaalin), aksoni (lähettää signaalin), synaptinen pääte.</div>
+<div class="key-term"><strong>Aktiopotentiaali</strong> — Sähköinen impulssi, joka etenee aksonia pitkin. Toimii "kaikki tai ei mitään" -periaatteella. Nopeus riippuu myeliinivaipasta ja aksoniläpimitasta.</div>
+<div class="key-term"><strong>Synapsi</strong> — Kahden neuronin välinen liitoskohta. Signaali välittyy kemiallisesti <strong>välittäjäaineiden (neurotransmitters)</strong> avulla synaptiseen rakoon.</div>
+<h3>Keskeiset välittäjäaineet</h3>
+<ul>
+  <li><strong>Glutamaatti</strong> — aivojen yleisin eksitatorinen (kiihdyttävä) välittäjäaine.</li>
+  <li><strong>GABA</strong> — yleisin inhibitorinen (estävä) välittäjäaine.</li>
+  <li><strong>Dopamiini</strong> — palkitseminen, motivaatio, liikkeet (Parkinson, skitsofrenia).</li>
+  <li><strong>Serotoniini</strong> — mieliala, uni, ruokahalu (masennus).</li>
+  <li><strong>Asetyylikoliini</strong> — muisti, oppiminen, lihasten ohjaus (Alzheimer).</li>
+  <li><strong>Noradrenaliini</strong> — vireystila, tarkkaavaisuus, stressivaste.</li>
+</ul>
+<h3>Hermosto</h3>
+<ul>
+  <li><strong>Keskushermosto (KH)</strong> — aivot + selkäydin.</li>
+  <li><strong>Ääreishermosto</strong> — somaattinen (tahdonalainen) + autonominen (tahdosta riippumaton: sympaattinen/parasympaattinen).</li>
+</ul>
+<h3>Aivojen rakenne</h3>
+<ul>
+  <li><strong>Aivorunko</strong> — elintoiminnot: hengitys, sydämen syke, vireystila.</li>
+  <li><strong>Pikkuaivot (cerebellum)</strong> — liikkeiden koordinaatio, tasapaino, motorinen oppiminen.</li>
+  <li><strong>Talamus</strong> — "aivojen releasema" — välittää aistinformaation aivokuorelle (paitsi hajuaisti).</li>
+  <li><strong>Hypotalamus</strong> — hormonitoiminta, nälkä, jano, lämpötila, vuorokausirytmi.</li>
+  <li><strong>Limbinen järjestelmä</strong> — tunteet, motivaatio. Sisältää hippokampuksen (muisti) ja amygdalan (pelko, tunnemuisti).</li>
+  <li><strong>Aivokuori (cortex)</strong> — korkeammat kognitiiviset toiminnot.</li>
+</ul>
+<h3>Aivokuoren lohkot</h3>
+<ul>
+  <li><strong>Otsalohko (frontaalinen)</strong> — suunnittelu, päätöksenteko, työmuisti, persoonallisuus, motorinen aivokuori (liikkeet). Prefrontaalinen kuori = "toimitusjohtaja".</li>
+  <li><strong>Päälaenlohko (parietaalinen)</strong> — somatosensorinen käsittely, avaruudellinen hahmottaminen, laskeminen.</li>
+  <li><strong>Ohimolohko (temporaalinen)</strong> — kuuloaivokuori, kielen ymmärtäminen (Wernicke), muisti (hippokampus).</li>
+  <li><strong>Takaraivolohko (okkipitaalinen)</strong> — näköaivokuori (primaarinen visuaalinen kuori, V1).</li>
+</ul>
+<h3>Aivojen tutkimusmenetelmät</h3>
+<ul>
+  <li><strong>EEG (elektroenkefalografia)</strong> — mittaa aivojen sähköistä toimintaa pään pinnalta. Erinomainen ajallinen erottelukyky (millisekunnat), heikko avaruudellinen.</li>
+  <li><strong>MEG (magnetoenkefalografia)</strong> — mittaa aivojen magneettikenttien muutoksia. Hyvä ajallinen JA kohtuullinen avaruudellinen tarkkuus.</li>
+  <li><strong>PET (positroniemissiotomografia)</strong> — radioaktiivinen merkkiaine → aivojen aineenvaihdunnan kuvaus. Huono ajallinen tarkkuus.</li>
+  <li><strong>fMRI (funktionaalinen magneettikuvaus)</strong> — mittaa BOLD-signaalia (veren happipitoisuuden muutoksia). Hyvä avaruudellinen tarkkuus (mm), huono ajallinen (sekunteja).</li>
+  <li><strong>TMS (transkraniaalinen magneettistimulaatio)</strong> — häiritsee tai aktivoi tiettyjä aivoalueita → kausaalipäätelmiä.</li>
+</ul>
+`
+},
+{
+  id:"ch3", title:"3: Aivojen kehitys ja plastisiteetti",
+  html:`
+<h2>3. Aivojen kehitys ja plastisiteetti</h2>
+<h3>Aivojen kehitys</h3>
+<p>Aivot kehittyvät voimakkaasti sikiökaudella ja ensimmäisinä elinvuosina. Kehitys jatkuu nuoruuteen asti (erityisesti prefrontaalinen kuori).</p>
+<ul>
+  <li><strong>Neurogenesis</strong> — uusien hermosolujen syntyminen. Erityisesti sikiökaudella, mutta jatkuu aikuisenakin hippokampuksessa.</li>
+  <li><strong>Synaptogenesis</strong> — synapsien muodostuminen. Ylituotanto varhain → karsinta (pruning) kokemuksen perusteella.</li>
+  <li><strong>Synaptinen karsinta (pruning)</strong> — käyttämättömät synapsit eliminoidaan, käytetyt vahvistuvat. "Use it or lose it" -periaate.</li>
+</ul>
+<div class="key-term"><strong>Myelinaatio</strong> — Aksonien ympärille muodostuu rasvaperäinen myeliinivaippa, joka nopeuttaa hermoimpulssin johtumista. Etenee takaosista etuosiin; prefrontaalinen kuori myelinisoituu viimeisenä (~25 v.).</div>
+<h3>Kriittiset ja sensitiiviset kaudet</h3>
+<div class="key-term"><strong>Kriittinen kausi</strong> — Rajattu aikaikkuna, jolloin tietty kehitys TÄYTYY tapahtua (esim. kielen oppiminen, näön kehittyminen). Kauden jälkeen kehitys on huomattavasti vaikeampaa.</div>
+<div class="key-term"><strong>Sensitiivinen kausi</strong> — Aikaikkuna, jolloin oppiminen on erityisen helppoa, mutta ei mahdotonta myöhemminkään.</div>
+<h3>Aivojen plastisiteetti</h3>
+<p>Aivot muovautuvat kokemuksen perusteella koko elämän ajan.</p>
+<ul>
+  <li><strong>Kokemusriippuvainen plastisiteetti</strong> — oppiminen muuttaa aivojen rakennetta ja toimintaa (esim. Lontoon taksikuskkien suurentunut hippokampus).</li>
+  <li><strong>Kompensatorinen plastisiteetti</strong> — aivovaurion jälkeen muut aivoalueet voivat osittain ottaa vaurioituneen alueen tehtäviä.</li>
+  <li><strong>Hebbin sääntö</strong> — "Neurons that fire together, wire together." Samanaikaisesti aktivoituvien neuronien välinen yhteys vahvistuu.</li>
+</ul>
+<div class="key-term"><strong>Pitkäkestoinen potentiaatio (LTP)</strong> — Synaptisen yhteyden pysyvä vahvistuminen toistuvan aktivoinnin myötä. LTP on oppimisen ja muistin hermostollinen perusta.</div>
+`
+},
+{
+  id:"ch4", title:"4: Havaitseminen",
+  html:`
+<h2>4. Havaitseminen</h2>
+<h3>Havaitsemisen perusteet</h3>
+<p>Havaitseminen on aktiivinen prosessi, jossa aivot tulkitsevat aistien kautta saapuvaa informaatiota.</p>
+<div class="key-term"><strong>Sensaatio vs. perseptio</strong> — Sensaatio = aistielimen vastaanottama raakadata (valoaallot, ääniaalot). Perseptio = aivojen tulkinta tuosta datasta merkitykselliseksi kokemukseksi.</div>
+<ul>
+  <li><strong>Bottom-up -prosessointi (dataohjautuva)</strong> — aistidatasta nouseva käsittely, "alhaalta ylös".</li>
+  <li><strong>Top-down -prosessointi (käsiteohjautuva)</strong> — odotukset, tieto ja konteksti ohjaavat havaitsemista "ylhäältä alas". Selittää miksi näemme sen, mitä odotamme.</li>
+</ul>
+<h3>Näköjärjestelmä</h3>
+<ul>
+  <li><strong>Verkkokalvo (retina)</strong> → <strong>näköhermo</strong> → <strong>lateraalinen polvitumake (LGN, talamuksessa)</strong> → <strong>primaarinen näköaivokuori (V1, takaraivolohko)</strong>.</li>
+  <li><strong>Tapit</strong> — värinäkö, tarkan näön alueella (fovea). Kolme tyyppiä (punainen, vihreä, sininen).</li>
+  <li><strong>Sauvat</strong> — hämäränäkö, perifeeria. Herkkiä valolle, eivät erota värejä.</li>
+</ul>
+<div class="key-term"><strong>Mitä-rata (ventraalinen)</strong> — V1 → ohimolohko. Tunnistaa MITÄ kohde on (muoto, väri, identiteetti). Vaurio → visuaalinen agnosia (ei tunnista esineitä).</div>
+<div class="key-term"><strong>Missä/miten-rata (dorsaalinen)</strong> — V1 → päälaenlohko. Tunnistaa MISSÄ kohde on ja miten siihen tartutaan (sijainti, liike). Vaurio → optinen ataksia.</div>
+<h3>Hahmolait (Gestalt)</h3>
+<p>Gestalt-psykologia: "kokonaisuus on enemmän kuin osiensa summa." Havaitsemisen organisointilait:</p>
+<ul>
+  <li><strong>Läheisyys</strong> — lähellä toisiaan olevat kohteet ryhmittyvät yhteen.</li>
+  <li><strong>Samankaltaisuus</strong> — samanlaiset kohteet ryhmittyvät.</li>
+  <li><strong>Jatkuvuus</strong> — suosimme tasaisia, jatkuvia linjoja.</li>
+  <li><strong>Sulkeutuvuus</strong> — täydennämme puuttuvat osat kokonaiseksi muodoksi.</li>
+  <li><strong>Yhteinen liike</strong> — samaan suuntaan liikkuvat kohteet ryhmittyvät.</li>
+</ul>
+<h3>Syvyyshavaitseminen</h3>
+<ul>
+  <li><strong>Binokulaariset vihjeet</strong> — silmien yhteistoiminta: binokulaarinen dispariteetti (silmien näkökulmien ero), konvergenssi.</li>
+  <li><strong>Monokulaariset vihjeet</strong> — peittävyys, suhteellinen koko, lineaarinen perspektiivi, tekstuurigradientti.</li>
+</ul>
+<h3>Kuuleminen ja muut aistit</h3>
+<ul>
+  <li><strong>Kuuloaivokuori</strong> — ohimolohkon yläpinnalla (Heschlin poimu).</li>
+  <li><strong>Tonotopinen organisaatio</strong> — eri taajuudet käsitellään eri kohdissa kuuloaivokuorella (vrt. retinotopinen näössä).</li>
+  <li><strong>Somatotopinen organisaatio</strong> — kehon eri osat edustettuina aivokuorella järjestyksessä (homunculus).</li>
+</ul>
+`
+},
+{
+  id:"ch5", title:"5: Tarkkaavaisuus",
+  html:`
+<h2>5. Tarkkaavaisuus</h2>
+<h3>Mitä tarkkaavaisuus on?</h3>
+<p>Tarkkaavaisuus on kognitiivinen prosessi, jolla valikoidaan käsiteltävä informaatio ja kontrolloidaan rajallisia resursseja.</p>
+<h3>Valikoiva tarkkaavaisuus</h3>
+<div class="key-term"><strong>Cocktail party -efekti</strong> — Kyky keskittyä yhteen keskusteluun meluisassa ympäristössä ja silti havaita oma nimi toisesta. Osoittaa, että tiettyä suodattamattomua informaatiota käsitellään.</div>
+<div class="key-term"><strong>Dikoottinen kuuntelu</strong> — Eri viestit eri korviin. Osallistuja varjostaa (toistaa) toista viestiä. Tutkii, mitä informaatiota käsitellään huomiotta jätetystä kanavasta.</div>
+<h3>Tarkkaavaisuuden suodatinmallit</h3>
+<ul>
+  <li><strong>Broadbentin suodatinmalli (1958)</strong> — Varhainen valinta: suodatin estää kaiken informaation huomiotta jätetystä kanavasta ennen semanttista käsittelyä. "Pullonkaulamalli".</li>
+  <li><strong>Treismanin vaimennusmalli (1964)</strong> — Huomiotta jätetty informaatio vaimennetaan muttei suljeta kokonaan. Selittää cocktail party -efektin.</li>
+  <li><strong>Myöhäisen valinnan malli (Deutsch & Deutsch, 1963)</strong> — Kaikki informaatio käsitellään semanttisesti; valinta tapahtuu vasta vasteenvalinnan vaiheessa.</li>
+</ul>
+<h3>Visuaalinen tarkkaavaisuus</h3>
+<div class="key-term"><strong>Visuaalinen etsintä</strong> — <strong>Pop-out -haku</strong>: kohde eroaa yhdellä piirteellä (väri, suunta) → löytyy heti (rinnakkainen prosessointi). <strong>Konjunktiohaku</strong>: kohde eroaa piireyhdistelmällä → vaatii tarkkaavaisuutta (sarjallinen prosessointi).</div>
+<div class="key-term"><strong>Treismanin piirteenintegraatioteoria (FIT)</strong> — Yksittäiset piirteet (väri, muoto) käsitellään rinnakkaisesti (esiattentiivinen vaihe). Piirteiden yhdistäminen kohteeksi vaatii tarkkaavaisuutta (attentiivinen vaihe).</div>
+<h3>Muutossokeus ja ei-huomioitu havaitseminen</h3>
+<ul>
+  <li><strong>Muutossokeus (change blindness)</strong> — merkittäviäkin muutoksia näkökentässä ei huomata ilman tarkkaavaisuuden kohdistamista.</li>
+  <li><strong>Ei-huomioitu havaitseminen (inattentional blindness)</strong> — keskittyessä yhteen tehtävään odottamattomia ärsykkeitä ei havaita (esim. gorilla-kokeilu, Simons & Chabris).</li>
+</ul>
+<h3>Stroop-efekti</h3>
+<div class="key-term"><strong>Stroop-tehtävä</strong> — Sanan värin nimeäminen, kun sana itse on eri värinimi (esim. "PUNAINEN" sinisellä). Ristiriita hidastaa vastaamista. Osoittaa automaattisen lukemisen ja kontrolloidun prosessoinnin välisen konfliktin.</div>
+<h3>Neglect (huomiotta jättämisen häiriö)</h3>
+<div class="key-term"><strong>Neglect</strong> — Yleensä oikean päälaenlohkon vaurio → vasemman puolen avaruuden ja kehon huomiotta jättäminen. Potilas ei "näe" vasenta puolta, vaikka aistijärjestelmä toimii.</div>
+<h3>Tarkkaavaisuus ja ADHD</h3>
+<p>ADHD (aktiivisuuden ja tarkkaavuuden häiriö) liittyy prefrontaalisen kuoren ja dopamiinijärjestelmän toimintahäiriöihin. Oireet: tarkkaamattomuus, hyperaktiivisuus, impulsiivisuus.</p>
+`
+},
+{
+  id:"ch6", title:"6: Lyhytkestoinen muisti ja työmuisti",
+  html:`
+<h2>6. Lyhytkestoinen muisti ja työmuisti</h2>
+<h3>Muistijärjestelmien yleiskuva</h3>
+<div class="key-term"><strong>Atkinson-Shiffrinin malli (1968)</strong> — Kolmen varaston malli: sensorinen muisti → lyhytkestoinen muisti (STM) → pitkäkestoinen muisti (LTM). Kertaus siirtää tietoa STM:stä LTM:ään.</div>
+<h3>Sensorinen muisti</h3>
+<ul>
+  <li><strong>Ikoninen muisti</strong> — visuaalinen sensorinen muisti, kesto ~0,5 s (Sperlingin koe).</li>
+  <li><strong>Ekoinen muisti</strong> — auditiivinen sensorinen muisti, kesto ~2–4 s.</li>
+</ul>
+<h3>Lyhytkestoinen muisti (STM)</h3>
+<ul>
+  <li><strong>Kapasiteetti</strong> — Millerin (1956) "maaginen luku": 7 ± 2 yksikköä. Nykyarvio on noin 4 yksikköä.</li>
+  <li><strong>Chunking (ryhmittely)</strong> — yksittäisten yksiköiden yhdistäminen suuremmiksi kokonaisuuksiksi kasvattaa tehollista kapasiteettia.</li>
+  <li><strong>Kesto</strong> — ilman kertausta noin 15–30 sekuntia (Peterson & Peterson, 1959).</li>
+</ul>
+<h3>Baddeleys työmuistimalli (1974/2000)</h3>
+<div class="key-term"><strong>Työmuisti</strong> — Aktiivinen järjestelmä, joka sekä säilyttää että manipuloi informaatiota. Korvasi passiivisen STM-käsitteen. Neljä osajärjestelmää:</div>
+<ul>
+  <li><strong>Fonologinen silmukka</strong> — ylläpitää ja kertaa sanallista/auditiivista tietoa. Kaksi osaa: fonologinen varasto (säilytys ~2 s) + artikulatorinen kertausprosessi (sisäinen puhe).</li>
+  <li><strong>Visuospatiaalinen luonnoslehtiö</strong> — ylläpitää ja manipuloi visuaalista ja spatiaalista (avaruudellista) tietoa.</li>
+  <li><strong>Keskusyksikkö (central executive)</strong> — tarkkaavaisuuden ohjaaja: jakaa resursseja, vaihtaa tehtäviä, estää irrelevantin informaation. Rajallinen kapasiteetti.</li>
+  <li><strong>Episodinen puskuri (2000)</strong> — myöhemmin lisätty; yhdistää eri lähteistä tulevaa tietoa ja muodostaa yhtenäisiä muistiepisodeja. Yhteys pitkäkestoiseen muistiin.</li>
+</ul>
+<h3>Työmuistiin liittyvät aivoalueet</h3>
+<p>Prefrontaalinen kuori on keskeinen työmuistille. Dorsolateraalinen prefrontaalinen kuori (DLPFC) liittyy erityisesti tiedon ylläpitoon ja manipulaatioon.</p>
+<h3>Fonologisen silmukan todisteet</h3>
+<ul>
+  <li><strong>Fonologinen samankaltaisuusefekti</strong> — samalta kuulostavat kirjaimet/sanat sekoittuvat helpommin (B, D, G, T vs. K, R, Y, W).</li>
+  <li><strong>Sanan pituuden efekti</strong> — pitkiä sanoja muistetaan huonommin kuin lyhyitä (kertausaika rajoittaa).</li>
+  <li><strong>Artikulatorinen suppressio</strong> — sisäisen puheen estäminen (esim. toistamalla "the the the") häiritsee fonologista silmukkaa.</li>
+</ul>
+`
+},
+{
+  id:"ch7", title:"7: Oppiminen ja pitkäkestoinen muisti",
+  html:`
+<h2>7. Oppiminen ja pitkäkestoinen muisti</h2>
+<h3>Pitkäkestoisen muistin tyypit</h3>
+<div class="key-term"><strong>Eksplisiittinen (deklaratiivinen) muisti</strong> — tietoinen muisti. Jaetaan: <strong>episodinen muisti</strong> (henkilökohtaiset tapahtumat, "mitä–missä–milloin") ja <strong>semanttinen muisti</strong> (yleistieto, faktat, käsitteet).</div>
+<div class="key-term"><strong>Implisiittinen (ei-deklaratiivinen) muisti</strong> — tiedostamaton muisti. Sisältää: <strong>proseduraalinen muisti</strong> (taidot, tavat — pyörällä ajo), <strong>klassinen ehdollistuminen</strong> ja <strong>priming</strong>.</div>
+<h3>Koodaus (encoding)</h3>
+<ul>
+  <li><strong>Käsittelytason teoria (Craik & Lockhart, 1972)</strong> — syvempi käsittely (merkitys, yhteydet) tuottaa vahvemman muistijäljen kuin pinnallinen käsittely (ulkoasu, ääntäminen).</li>
+  <li><strong>Elaboraatio</strong> — tiedon yhdistäminen olemassa olevaan tietoon parantaa muistamista.</li>
+  <li><strong>Koodauksen spesifisyyden periaate (Tulving)</strong> — muistiin palautus onnistuu parhaiten, kun palautusvihjeet vastaavat koodauksen yhteydessä olleita vihjeitä.</li>
+</ul>
+<h3>Muistin säilyttäminen ja unohtaminen</h3>
+<ul>
+  <li><strong>Ebbinghausin unohtamiskäyrä</strong> — unohtaminen on aluksi nopeaa ja hidastuu ajan kuluessa.</li>
+  <li><strong>Proaktiivinen interferenssi</strong> — aiemmin opittu häiritsee uuden muistamista.</li>
+  <li><strong>Retroaktiivinen interferenssi</strong> — myöhemmin opittu häiritsee aiemmin opitun muistamista.</li>
+</ul>
+<h3>Muistin palautus (retrieval)</h3>
+<ul>
+  <li><strong>Vapaa palauttaminen (recall)</strong> — muistetaan ilman vihjeitä (vaikeampi).</li>
+  <li><strong>Tunnistaminen (recognition)</strong> — tunnistetaan aiemmin nähty (helpompi).</li>
+  <li><strong>Tilanneriippuvainen muisti</strong> — muistetaan paremmin samassa ympäristössä kuin missä opittiin.</li>
+  <li><strong>Mielialariippuvainen muisti</strong> — muistetaan paremmin samassa mielialassa kuin koodatessa.</li>
+</ul>
+<h3>Hippokampus ja muisti</h3>
+<div class="key-term"><strong>Hippokampus</strong> — Kriittinen uusien eksplisiittisten (deklaratiivisten) muistojen muodostamisessa. EI ole muistojen pysyvä säilytyspaikka — pitkäkestoiset muistot siirtyvät aivokuorelle (konsolidaatio).</div>
+<div class="key-term"><strong>Tapaus H.M. (Henry Molaison)</strong> — Molemminpuolinen hippokampuksen poisto epilepsian hoidossa → vakava anterogradinen amnesia (ei uusia deklaratiivisia muistoja), mutta implisiittinen muisti (taidot) säilyi. Osoitti hippokampuksen roolin ja muistijärjestelmien erillisyyden.</div>
+<h3>Amnesian tyypit</h3>
+<ul>
+  <li><strong>Anterogradinen amnesia</strong> — kyvyttömyys muodostaa uusia muistoja vaurion jälkeen.</li>
+  <li><strong>Retrogradinen amnesia</strong> — aiemmin muodostettujen muistojen menetys. Usein temporaalinen gradientti: tuoreet muistot menetetään, kaukaiset säilyvät (Ribotʼn laki).</li>
+</ul>
+`
+},
+{
+  id:"ch8", title:"8: Aivotutkimuksen mahdollisuudet ja rajat",
+  html:`
+<h2>8. Aivotutkimuksen mahdollisuudet ja rajat</h2>
+<h3>Mitä aivotutkimus voi kertoa?</h3>
+<ul>
+  <li>Aivoalueiden toiminnallinen erikoistuminen — mitkä alueet aktivoituvat eri tehtävissä.</li>
+  <li>Ajallinen dynamiikka — milloin prosessit tapahtuvat (EEG/MEG).</li>
+  <li>Rakenteelliset erot — esim. harmaan aineen tiheys, valkoisen aineen radat (DTI).</li>
+  <li>Kausaaliset suhteet — TMS ja leesiotutkimukset voivat osoittaa, että aivoalue on VÄLTTÄMÄTÖN tietylle toiminnolle.</li>
+</ul>
+<h3>Rajoitukset ja varoitukset</h3>
+<div class="key-term"><strong>Käänteinen päättely (reverse inference)</strong> — Ongelmallinen päättely: "aivoalue X aktivoitui → siis kognitiivinen prosessi Y tapahtui." Sama alue voi osallistua moniin prosesseihin.</div>
+<ul>
+  <li><strong>Korrelaatio vs. kausaliteetti</strong> — fMRI osoittaa korrelaation (aivoalue aktivoituu tehtävän aikana), ei suoraan kausaliteettia.</li>
+  <li><strong>Ekologinen validiteetti</strong> — laboratorio-olosuhteet eivät aina vastaa arkielämän tilanteita.</li>
+  <li><strong>Yksilölliset erot</strong> — aivojen rakenne ja toiminta vaihtelevat yksilöiden välillä huomattavasti.</li>
+  <li><strong>"Neo-frenologia"</strong> — varoitus liiallisesta lokalisationismista: jokaista toimintoa ei voi sijoittaa yhteen aivoalueeseen. Aivot toimivat verkostoina.</li>
+</ul>
+<h3>Aivoverkostot</h3>
+<p>Nykytutkimus korostaa aivoverkostoja yksittäisten alueiden sijaan:</p>
+<ul>
+  <li><strong>Default mode network (DMN)</strong> — aktiivinen levossa ja itsereferentiaalisessa ajattelussa, muistelussa. Deaktivoituu tehtävän aikana.</li>
+  <li><strong>Fronto-parietaalinen verkosto</strong> — tarkkaavaisuus ja kognitiivinen kontrolli.</li>
+  <li><strong>Salience-verkosto</strong> — merkityksellisten ärsykkeiden tunnistaminen (insula, ACC).</li>
+</ul>
+`
+}
+];
+
+// ══════════════════════════════════════
+//  TENTTIVÄITTÄMÄT
+// ══════════════════════════════════════
+const QUESTIONS = [
+  // --- Kognitiivinen psykologia ja neurotiede ---
+  {cat:"Kognitiivinen psykologia",q:"Kognitiivinen vallankumous oli siirtymä behaviorismista sisäisten mielen prosessien tutkimiseen.",correct:true,explanation:"1950–60-luvuilla psykologia alkoi tutkia sisäisiä prosesseja (havaitseminen, muisti, ajattelu) pelkän ulkoisen käyttäytymisen sijaan."},
+  {cat:"Kognitiivinen psykologia",q:"Tiedonkäsittelymallissa (information processing) mieli vertautuu analogisesti tietokoneeseen: syöte → prosessointi → tuotos.",correct:true,explanation:"Tämä on kognitiivisen psykologian perusmalli, joka auttaa ymmärtämään mielen toimintaa vaiheittaisena prosessina."},
+  {cat:"Kognitiivinen psykologia",q:"Frenologia on nykyaikainen ja tieteellisesti pätevä menetelmä aivoalueiden tutkimiseen.",correct:false,explanation:"Frenologia (Gall) oli pseudotiedettä, jossa kallon muodosta pääteltiin persoonallisuus. Se kuitenkin aloitti keskustelun aivoalueiden erikoistumisesta."},
+  {cat:"Kognitiivinen psykologia",q:"Brocan alue sijaitsee vasemmassa otsalohkossa ja sen vaurio aiheuttaa puheen tuottamisen häiriön.",correct:true,explanation:"Broca (1861) osoitti, että vasemman otsalohkon vaurio → sujumaton afasia (puheen tuottaminen vaikeutuu, ymmärtäminen säilyy paremmin)."},
+  {cat:"Kognitiivinen psykologia",q:"Kaksoisdissosiaatio tarkoittaa, että sama aivovaurio aiheuttaa kaksi erillistä häiriötä.",correct:false,explanation:"Kaksoisdissosiaatiossa KAHDELLA potilaalla on päinvastaiset häiriöt (A vaurioitunut, B säilynyt — ja toisinpäin). Tämä osoittaa A:n ja B:n olevan erillisiä prosesseja."},
+  {cat:"Kognitiivinen psykologia",q:"Wernicken alue sijaitsee vasemmassa ohimolohkossa ja sen vaurio aiheuttaa puheen ymmärtämisen häiriön.",correct:true,explanation:"Wernicken afasia: puhe on sujuvaa mutta sisällöltään sekavaa, ja puheen ymmärtäminen on heikentynyt."},
+
+  // --- Aivojen rakenne ja toiminta ---
+  {cat:"Aivojen rakenne ja toiminta",q:"Aktiopotentiaali toimii 'kaikki tai ei mitään' -periaatteella.",correct:true,explanation:"Neuroni joko laukaisee täyden aktiopotentiaalin tai ei lainkaan. Signaalin voimakkuus välittyy laukaisutaajuutena, ei yksittäisen potentiaalin suuruutena."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Glutamaatti on aivojen yleisin inhibitorinen (estävä) välittäjäaine.",correct:false,explanation:"Glutamaatti on yleisin EKSITATORINEN (kiihdyttävä) välittäjäaine. GABA on yleisin inhibitorinen."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Talamus toimii 'aivojen releasemana' ja välittää aistinformaation aivokuorelle.",correct:true,explanation:"Lähes kaikki aistinformaatio (paitsi hajuaisti) kulkee talamuksen kautta aivokuorelle."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Hippokampus kuuluu limbiseen järjestelmään ja liittyy erityisesti muistiin.",correct:true,explanation:"Hippokampus on kriittinen uusien deklaratiivisten muistojen muodostamisessa. Amygdala, toinen limbisen järjestelmän rakenne, liittyy tunteisiin."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Pikkuaivot (cerebellum) ovat ensisijaisesti vastuussa päätöksenteosta ja suunnittelusta.",correct:false,explanation:"Pikkuaivot vastaavat liikkeiden koordinaatiosta, tasapainosta ja motorisesta oppimisesta. Päätöksenteko ja suunnittelu kuuluvat prefrontaaliselle kuorelle."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Prefrontaalista kuorta kutsutaan 'aivojen toimitusjohtajaksi' sen toiminnanohjaukseen liittyvän roolin vuoksi.",correct:true,explanation:"Prefrontaalinen kuori vastaa suunnittelusta, päätöksenteosta, työmuistista, impulssien hallinnasta ja monimutkaisten käyttäytymismallien ohjauksesta."},
+  {cat:"Aivojen rakenne ja toiminta",q:"EEG:llä on erinomainen ajallinen erottelukyky (millisekunnat) mutta heikko avaruudellinen tarkkuus.",correct:true,explanation:"EEG mittaa aivojen sähköistä toimintaa pään pinnalta hyvin nopeasti, mutta signaalin alkuperäpaikkaa on vaikea paikantaa tarkasti."},
+  {cat:"Aivojen rakenne ja toiminta",q:"fMRI mittaa suoraan neuronien sähköistä toimintaa.",correct:false,explanation:"fMRI mittaa BOLD-signaalia eli veren happipitoisuuden muutoksia, joka on epäsuora mitta hermostollisesta aktiivisuudesta."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Otsalohko sisältää motorisen aivokuoren ja prefrontaalisen kuoren.",correct:true,explanation:"Otsalohkon takaosassa on motorinen kuori (liikkeet), etuosassa prefrontaalinen kuori (toiminnanohjaus, suunnittelu)."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Primaarinen näköaivokuori (V1) sijaitsee ohimolohkossa.",correct:false,explanation:"V1 sijaitsee TAKARAIVOLOHKOSSA (okkipitaalilohko). Ohimolohkossa on kuuloaivokuori."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Dopamiini liittyy palkitsemiseen, motivaatioon ja liikkeiden säätelyyn.",correct:true,explanation:"Dopamiinijärjestelmän häiriöt liittyvät Parkinsonin tautiin (liikehäiriöt) ja skitsofreniaan (positiiviset oireet)."},
+  {cat:"Aivojen rakenne ja toiminta",q:"Asetyylikoliini liittyy muistiin ja oppimiseen, ja sen puutos on yhteydessä Alzheimerin tautiin.",correct:true,explanation:"Alzheimerin taudissa kolinergisten neuronien tuhoutuminen heikentää asetyylikoliinivälitteistä hermoviestintää, mikä vaikuttaa muistiin."},
+
+  // --- Aivojen kehitys ja plastisiteetti ---
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Myelinaatio etenee aivoissa takaosista etuosiin, ja prefrontaalinen kuori myelinisoituu viimeisenä (~25 v.).",correct:true,explanation:"Tämä selittää, miksi toiminnanohjaus, impulssien hallinta ja päätöksenteko kypsyvät viimeisimpinä."},
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Synaptinen karsinta (pruning) tarkoittaa uusien synapsien muodostumista.",correct:false,explanation:"Synaptinen karsinta tarkoittaa käyttämättömien synapsien ELIMINOINTIA. Uusien synapsien muodostuminen on synaptogeneesiä."},
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Hebbin säännön mukaan samanaikaisesti aktivoituvien neuronien välinen yhteys vahvistuu.",correct:true,explanation:"'Neurons that fire together, wire together.' Tämä on oppimisen ja muistinmuodostuksen perusmekanismi."},
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Pitkäkestoinen potentiaatio (LTP) on synaptisen yhteyden pysyvä heikentyminen.",correct:false,explanation:"LTP on synaptisen yhteyden pysyvä VAHVISTUMINEN toistuvan aktivoinnin myötä. Se on oppimisen ja muistin hermostollinen perusta."},
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Aikuisen aivoissa ei tapahdu lainkaan neurogeneesiä (uusien hermosolujen syntymistä).",correct:false,explanation:"Aikuisenakin syntyy uusia hermosolujen erityisesti hippokampuksessa ja hajukäämin alueella, joskin huomattavasti vähemmän kuin sikiökaudella."},
+  {cat:"Aivojen kehitys ja plastisiteetti",q:"Kriittinen kausi on rajattu aikaikkuna, jolloin tietty kehitys täytyy tapahtua, ja kauden jälkeen kehitys on huomattavasti vaikeampaa.",correct:true,explanation:"Esim. näön kehittyminen vaatii visuaalista stimulaatiota varhaislapsuudessa. Sensitiivinen kausi on joustavampi — oppiminen on erityisen helppoa, mutta ei mahdotonta myöhemminkään."},
+
+  // --- Havaitseminen ---
+  {cat:"Havaitseminen",q:"Bottom-up-prosessointi tarkoittaa, että odotukset ja aiempi tieto ohjaavat havaitsemista ylhäältä alas.",correct:false,explanation:"Se kuvaa TOP-DOWN-prosessointia. Bottom-up = aistidatasta nouseva käsittely ilman odotusten vaikutusta."},
+  {cat:"Havaitseminen",q:"Tapit vastaavat värinäöstä ja toimivat parhaiten hyvässä valaistuksessa.",correct:true,explanation:"Tapit sijaitsevat fovean alueella ja mahdollistavat tarkan näön ja värien erottelun. Sauvat toimivat hämärässä."},
+  {cat:"Havaitseminen",q:"Ventraalinen (mitä) rata kulkee näköaivokuorelta ohimolohkoon ja tunnistaa kohteiden identiteetin.",correct:true,explanation:"Ventraalinen rata vastaa objektien tunnistamisesta (muoto, väri). Dorsaalinen (missä/miten) rata kulkee päälaenlohkoon ja käsittelee sijaintia."},
+  {cat:"Havaitseminen",q:"Visuaalinen agnosia on dorsaalisen (missä/miten) radan vaurion seuraus.",correct:false,explanation:"Visuaalinen agnosia (kohteiden tunnistamisen häiriö) johtuu VENTRAALISEN (mitä) radan vauriosta. Dorsaalisen radan vaurio aiheuttaa esim. optisen ataksian."},
+  {cat:"Havaitseminen",q:"Gestalt-psykologian mukaan 'kokonaisuus on enemmän kuin osiensa summa'.",correct:true,explanation:"Gestalt-hahmolait (läheisyys, samankaltaisuus, jatkuvuus, sulkeutuvuus, yhteinen liike) kuvaavat, miten havainnot organisoituvat kokonaisuuksiksi."},
+  {cat:"Havaitseminen",q:"Binokulaarinen dispariteetti tarkoittaa, että molemmista silmistä saadaan hieman eri näkökulma, mikä auttaa syvyyden havaitsemisessa.",correct:true,explanation:"Kahden silmän hieman erilaiset kuvat mahdollistavat stereoskooppisen (3D) syvyyden havaitsemisen."},
+  {cat:"Havaitseminen",q:"Tonotopinen organisaatio tarkoittaa, että kehon eri osat ovat edustettuina aivokuorella järjestyksessä.",correct:false,explanation:"Se kuvaa SOMATOTOPISTA organisaatiota (homunculus). Tonotopinen organisaatio tarkoittaa, että eri äänitaajuudet käsitellään eri kohdissa kuuloaivokuorella."},
+  {cat:"Havaitseminen",q:"Hajuaisti on ainoa aisti, jonka informaatio ei kulje talamuksen kautta aivokuorelle.",correct:true,explanation:"Hajutieto kulkee hajukäämistä suoraan hajuaivokuorelle ohittaen talamuksen, mikä erottaa sen muista aisteista."},
+
+  // --- Tarkkaavaisuus ---
+  {cat:"Tarkkaavaisuus",q:"Broadbentin suodatinmalli edustaa varhaisen valinnan teoriaa, jossa informaatio suodatetaan ennen semanttista käsittelyä.",correct:true,explanation:"Broadbentin (1958) pullonkaulamallin mukaan vain huomioitu kanava pääsee läpi suodattimen semanttiseen käsittelyyn."},
+  {cat:"Tarkkaavaisuus",q:"Treismanin vaimennusmallin mukaan huomiotta jätetty informaatio estetään kokonaan.",correct:false,explanation:"Treismanin (1964) mukaan huomiotta jätetty informaatio VAIMENNETAAN muttei suljeta kokonaan. Tämä selittää cocktail party -efektin."},
+  {cat:"Tarkkaavaisuus",q:"Pop-out-haussa kohde löytyy heti riippumatta häiriöärsykkeiden määrästä, koska prosessointi on rinnakkaista.",correct:true,explanation:"Kun kohde eroaa yhdellä selkeällä piirteellä (esim. punainen vihreisen joukossa), se 'hyppää esiin' ilman sarjallista etsintää."},
+  {cat:"Tarkkaavaisuus",q:"Treismanin piirteenintegraatioteorian (FIT) mukaan yksittäiset piirteet käsitellään sarjallisesti.",correct:false,explanation:"FIT:n mukaan yksittäiset piirteet (väri, muoto) käsitellään RINNAKKAISESTI (esiattentiivinen vaihe). Piirteiden YHDISTÄMINEN kohteeksi vaatii tarkkaavaisuutta (sarjallinen)."},
+  {cat:"Tarkkaavaisuus",q:"Muutossokeus (change blindness) tarkoittaa, ettei merkittäviäkään muutoksia näkökentässä huomata ilman tarkkaavaisuuden kohdistamista.",correct:true,explanation:"Muutossokeus osoittaa, että tarkkaavaisuus on välttämätön muutosten havaitsemiselle — emme automaattisesti rekisteröi kaikkea näkemäämme."},
+  {cat:"Tarkkaavaisuus",q:"Stroop-efekti osoittaa, että lukeminen on kontrolloitu prosessi, joka vaatii tietoista ponnistelua.",correct:false,explanation:"Stroop-efekti osoittaa juuri päinvastoin: lukeminen on AUTOMAATTINEN prosessi, jota on vaikea estää. Värin nimeäminen on kontrolloitu prosessi, joka häiriintyy automaattisesta lukemisesta."},
+  {cat:"Tarkkaavaisuus",q:"Neglect-häiriössä oikean päälaenlohkon vaurio johtaa vasemman puolen avaruuden huomiotta jättämiseen.",correct:true,explanation:"Potilas ei 'näe' vasenta puolta, vaikka aistijärjestelmä toimii. Kyse ei ole sokeudsesta vaan tarkkaavaisuuden häiriöstä."},
+  {cat:"Tarkkaavaisuus",q:"Ei-huomioitu havaitseminen (inattentional blindness) demonstroitiin kuuluisassa gorilla-kokeessa (Simons & Chabris).",correct:true,explanation:"Osallistujat eivät huomanneet gorilla-asuista henkilöä kävelemässä näkökentässä keskittyessään pallonheittojen laskemiseen."},
+  {cat:"Tarkkaavaisuus",q:"Dikoottisessa kuuntelussa sama viesti esitetään molempiin korviin samanaikaisesti.",correct:false,explanation:"Dikoottisessa kuuntelussa ERI viestit esitetään eri korviin. Osallistuja varjostaa (toistaa) toisen korvan viestiä."},
+
+  // --- Lyhytkestoinen muisti ja työmuisti ---
+  {cat:"Muisti: työmuisti",q:"Millerin 'maaginen luku' on 7 ± 2, joka kuvaa lyhytkestoisen muistin kapasiteettia.",correct:true,explanation:"Miller (1956) esitti, että STM:n kapasiteetti on noin 7 yksikköä. Nykytutkimus arvioi todellisen kapasiteetin olevan noin 4 yksikköä."},
+  {cat:"Muisti: työmuisti",q:"Baddeleys työmuistimalli koostuu kahdesta osajärjestelmästä: fonologisesta silmukasta ja keskusyksiköstä.",correct:false,explanation:"Neljä osajärjestelmää: fonologinen silmukka, visuospatiaalinen luonnoslehtiö, keskusyksikkö JA episodinen puskuri (lisätty 2000)."},
+  {cat:"Muisti: työmuisti",q:"Fonologinen silmukka ylläpitää ja kertaa sanallista/auditiivista tietoa.",correct:true,explanation:"Fonologinen silmukka koostuu fonologisesta varastosta (~2 s säilytys) ja artikulatorisesta kertausprosessista (sisäinen puhe)."},
+  {cat:"Muisti: työmuisti",q:"Visuospatiaalinen luonnoslehtiö käsittelee sanallista tietoa.",correct:false,explanation:"Visuospatiaalinen luonnoslehtiö käsittelee visuaalista ja avaruudellista (spatiaalista) tietoa. Sanallinen tieto kuuluu fonologiselle silmukalle."},
+  {cat:"Muisti: työmuisti",q:"Keskusyksikkö (central executive) on Baddeleys mallin resurssien jakajaja tarkkaavaisuuden ohjaaja.",correct:true,explanation:"Keskusyksikkö jakaa resursseja, vaihtaa tehtäviä ja estää irrelevanttia informaatiota. Se on kapasiteetiltaan rajallinen."},
+  {cat:"Muisti: työmuisti",q:"Fonologinen samankaltaisuusefekti tarkoittaa, että samalta kuulostavat sanat muistetaan helpommin.",correct:false,explanation:"Päinvastoin: samalta kuulostavat (B, D, G, T) SEKOITTUVAT helpommin fonologisessa varastossa, mikä heikentää muistamista."},
+  {cat:"Muisti: työmuisti",q:"Chunking (ryhmittely) kasvattaa lyhytkestoisen muistin tehollista kapasiteettia.",correct:true,explanation:"Yksittäisten yksiköiden yhdistäminen suuremmiksi kokonaisuuksiksi (esim. 0-4-0-1-2-3-4-5-6-7 → 040-1234-567) tehostaa muistia."},
+  {cat:"Muisti: työmuisti",q:"Dorsolateraalinen prefrontaalinen kuori (DLPFC) on keskeinen aivoalue työmuistitoiminnoille.",correct:true,explanation:"DLPFC liittyy erityisesti tiedon ylläpitoon ja manipulaatioon työmuistissa."},
+
+  // --- Oppiminen ja pitkäkestoinen muisti ---
+  {cat:"Muisti: pitkäkestoinen",q:"Episodinen muisti tallentaa henkilökohtaisia tapahtumia ('mitä–missä–milloin') ja semanttinen muisti yleistietoa.",correct:true,explanation:"Molemmat ovat eksplisiittisen (deklaratiivisen) muistin alatyyppejä. Implisiittinen muisti (taidot, priming) on tiedostamaton."},
+  {cat:"Muisti: pitkäkestoinen",q:"Proseduraalinen muisti (esim. pyörällä ajo) on eksplisiittisen muistin alalaji.",correct:false,explanation:"Proseduraalinen muisti on IMPLISIITTISEN (ei-deklaratiivisen) muistin alalaji. Se on tiedostamaton eikä vaadi tietoista palauttamista."},
+  {cat:"Muisti: pitkäkestoinen",q:"Käsittelytason teorian mukaan syvempi (semanttinen) käsittely tuottaa vahvemman muistijäljen kuin pinnallinen käsittely.",correct:true,explanation:"Craik & Lockhart (1972): merkityksen pohtiminen (syvä) vs. ulkoasun tarkastelu (pinnallinen) — syvä käsittely parantaa muistamista huomattavasti."},
+  {cat:"Muisti: pitkäkestoinen",q:"Retroaktiivinen interferenssi tarkoittaa, että aiemmin opittu häiritsee uuden muistamista.",correct:false,explanation:"Se kuvaa PROAKTIIVISTA interferenssiä. Retroaktiivinen = myöhemmin opittu häiritsee AIEMMIN opitun muistamista."},
+  {cat:"Muisti: pitkäkestoinen",q:"Hippokampus on deklaratiivisten muistojen pysyvä säilytyspaikka.",correct:false,explanation:"Hippokampus on kriittinen muistojen MUODOSTAMISESSA, mutta pitkäkestoiset muistot siirtyvät aivokuorelle konsolidaation myötä."},
+  {cat:"Muisti: pitkäkestoinen",q:"Tapaus H.M. osoitti, että hippokampuksen poisto aiheuttaa anterogradisen amnesian mutta implisiittinen muisti säilyy.",correct:true,explanation:"H.M. ei voinut muodostaa uusia deklaratiivisia muistoja, mutta oppi uusia motorisia taitoja — osoittaen muistijärjestelmien erillisyyden."},
+  {cat:"Muisti: pitkäkestoinen",q:"Anterogradinen amnesia tarkoittaa aiemmin muodostettujen muistojen menetystä.",correct:false,explanation:"Se kuvaa RETROGRADISTA amnesiaa. Anterogradinen = kyvyttömyys muodostaa UUSIA muistoja vaurion jälkeen."},
+  {cat:"Muisti: pitkäkestoinen",q:"Ebbinghausin unohtamiskäyrän mukaan unohtaminen on aluksi nopeaa ja hidastuu ajan kuluessa.",correct:true,explanation:"Suurin osa unohtamisesta tapahtuu ensimmäisten tuntien ja päivien aikana; sen jälkeen unohtaminen hidastuu merkittävästi."},
+  {cat:"Muisti: pitkäkestoinen",q:"Koodauksen spesifisyyden periaatteen mukaan muistiin palautus onnistuu parhaiten, kun palautusvihjeet vastaavat koodauksen vihjeitä.",correct:true,explanation:"Tulvingin periaate selittää myös tila- ja mielialariippuvaista muistia: kontekstin yhdenmukaisuus parantaa palautusta."},
+
+  // --- Aivotutkimuksen rajat ---
+  {cat:"Aivotutkimuksen rajat",q:"Käänteinen päättely (reverse inference) on ongelmallista, koska sama aivoalue voi osallistua moniin eri prosesseihin.",correct:true,explanation:"Esim. 'amygdala aktivoitui → siis pelkoa' on virheellinen, koska amygdala aktivoituu monissa eri tunnetiloissa ja prosesseissa."},
+  {cat:"Aivotutkimuksen rajat",q:"fMRI osoittaa suoraan kausaalisia suhteita aivoalueiden ja kognitiivisten toimintojen välillä.",correct:false,explanation:"fMRI osoittaa korrelaation (aivoalue aktivoituu tehtävän aikana), ei suoraan kausaliteettia. TMS ja leesiotutkimukset sopivat kausaalipäätelmiin paremmin."},
+  {cat:"Aivotutkimuksen rajat",q:"Default mode network (DMN) on aktiivinen levossa ja itsereferentiaalisessa ajattelussa.",correct:true,explanation:"DMN aktivoituu muistelussa, tulevaisuuden suunnittelussa ja itseen liittyvässä ajattelussa. Se deaktivoituu ulkoiseen tehtävään keskittyessä."},
+  {cat:"Aivotutkimuksen rajat",q:"Jokainen kognitiivinen toiminto voidaan sijoittaa yhteen tarkasti rajattuun aivoalueeseen.",correct:false,explanation:"Tämä on 'neo-frenologian' harha. Aivot toimivat verkostoina — kognitiiviset toiminnot perustuvat useiden aivoalueiden yhteistyöhön."},
+  {cat:"Aivotutkimuksen rajat",q:"TMS voi tuottaa kausaalista tietoa aivoalueen välttämättömyydestä tietylle toiminnolle.",correct:true,explanation:"TMS häiritsee tai aktivoi tiettyjä aivoalueita, jolloin voidaan päätellä, onko alue VÄLTTÄMÄTÖN tehtävän suorittamiselle — toisin kuin korrelaatiomenetelmillä."}
+];
+
+// ══════════════════════════════════════
+//  SOVELLUSLOGIIKKA
+// ══════════════════════════════════════
+let mode='study',currentChapter=0,quizCat='all',queue=[],qIdx=0,score=0,answered=false;
+function setMode(m){mode=m;document.querySelectorAll('.mode-btn').forEach((b,i)=>b.classList.toggle('active',(m==='study'?0:1)===i));document.getElementById('studyArea').classList.toggle('show',m==='study');document.getElementById('quizArea').classList.toggle('show',m==='quiz');if(m==='quiz')restartQuiz();}
+function buildStudy(){const nav=document.getElementById('chapterNav');CHAPTERS.forEach((ch,i)=>{const btn=document.createElement('button');btn.className='ch-btn'+(i===0?' active':'');btn.textContent=ch.title.split(':')[0];btn.onclick=()=>showChapter(i);nav.appendChild(btn);});showChapter(0);}
+function showChapter(i){currentChapter=i;document.querySelectorAll('.ch-btn').forEach((b,j)=>b.classList.toggle('active',j===i));document.getElementById('studyContent').innerHTML=CHAPTERS[i].html;}
+function buildCatBar(){const cats=[...new Set(QUESTIONS.map(q=>q.cat))];const bar=document.getElementById('categoryBar');bar.innerHTML='<button class="cat-btn active" onclick="setCat(\'all\')">Kaikki</button>';cats.forEach(c=>{const b=document.createElement('button');b.className='cat-btn';b.textContent=c;b.onclick=()=>setCat(c);bar.appendChild(b);});}
+function setCat(c){quizCat=c;document.querySelectorAll('#categoryBar .cat-btn').forEach(b=>b.classList.toggle('active',(c==='all'&&b.textContent==='Kaikki')||b.textContent===c));restartQuiz();}
+function shuffle(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+function restartQuiz(){const pool=quizCat==='all'?QUESTIONS:QUESTIONS.filter(q=>q.cat===quizCat);queue=shuffle(pool);qIdx=0;score=0;answered=false;document.getElementById('resultScreen').classList.remove('show');document.getElementById('quizInner').style.display='block';showQ();}
+function restartSame(){restartQuiz();}
+function showQ(){if(qIdx>=queue.length){showResult();return;}answered=false;const q=queue[qIdx];document.getElementById('progressFill').style.width=(qIdx/queue.length*100)+'%';document.getElementById('questionCounter').textContent=`Väittämä ${qIdx+1} / ${queue.length}`;document.getElementById('scorePill').textContent=`Oikein: ${score}`;document.getElementById('catBadge').textContent=q.cat;document.getElementById('questionText').textContent=q.q;document.querySelectorAll('.tf-btn').forEach(b=>{b.disabled=false;b.className=b.classList.contains('true-btn')?'tf-btn true-btn':'tf-btn false-btn';});document.getElementById('explanation').className='explanation';document.getElementById('explanation').innerHTML='';document.getElementById('nextBtn').className='next-btn';}
+function selectAnswer(userTrue){if(answered)return;answered=true;const q=queue[qIdx],ok=(userTrue===q.correct);if(ok)score++;document.querySelectorAll('.tf-btn').forEach(b=>b.disabled=true);const tb=document.querySelector('.true-btn'),fb=document.querySelector('.false-btn');if(userTrue){tb.classList.add(ok?'selected-correct':'selected-wrong');if(!ok)fb.classList.add('was-correct');}else{fb.classList.add(ok?'selected-correct':'selected-wrong');if(!ok)tb.classList.add('was-correct');}const el=document.getElementById('explanation');el.innerHTML=`<strong>${ok?'✓ Oikein!':'✗ Väärin — väittämä oli '+(q.correct?'OIKEIN':'VÄÄRIN')+'.'}</strong> ${q.explanation}`;el.className='explanation show';document.getElementById('nextBtn').className='next-btn show';}
+function nextQuestion(){qIdx++;showQ();}
+function showResult(){document.getElementById('quizInner').style.display='none';const rs=document.getElementById('resultScreen');rs.classList.add('show');const pct=Math.round(score/queue.length*100);document.getElementById('resultScore').textContent=`${score}/${queue.length}`;let g='';if(pct>=90)g='🏆 Erinomainen!';else if(pct>=75)g='🎯 Hyvä suoritus!';else if(pct>=60)g='📚 Kohtuullinen – kertaa vielä!';else g='💪 Lisää opiskelua tarvitaan!';document.getElementById('resultGrade').textContent=g;}
+buildStudy();buildCatBar();
+</script>
+</body>
+</html>
